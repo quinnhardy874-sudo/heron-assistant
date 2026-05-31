@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#2d5a27">
+<title>Heron Assistant</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap');
+
+  :root {
+    --green: #2d5a27;
+    --green-light: #4a8c3f;
+    --green-bright: #6dbf5e;
+    --cream: #f5f0e8;
+    --dark: #0d150b;
+    --dark2: #111a0e;
+    --dark3: #1a2618;
+    --border: #2a3a28;
+    --gray: #8a9187;
+    --gold: #d4a017;
+    --danger: #c0392b;
+    --danger-bg: #2a0a0a;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+  body {
+    background: var(--dark);
+    color: var(--cream);
+    font-family: 'DM Sans', sans-serif;
+    min-height: 100vh;
+    max-width: 480px;
+    margin: 0 auto;
+  }
+
+  .header {
+    background: var(--green);
+    padding: 16px 20px 12px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 3px solid var(--green-bright);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 26px;
+    letter-spacing: 2px;
+    color: var(--cream);
+    line-height: 1;
+  }
+  .logo span { color: var(--green-bright); }
+
+  .header-right { display: flex; align-items: center; gap: 12px; }
+
+  .cal-status {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    padding: 4px 10px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .cal-status.connected {
+    background: var(--green);
+    color: var(--green-bright);
+    border: 1px solid var(--green-bright);
+  }
+  .cal-status.disconnected {
+    background: #2a1a0a;
+    color: var(--gold);
+    border: 1px solid var(--gold);
+  }
+
+  .status-dot {
+    width: 8px; height: 8px;
+    background: var(--green-bright);
+    border-radius: 50%;
+    box-shadow: 0 0 6px var(--green-bright);
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse { 0%,100%{opacity:1}50%{opacity:0.3} }
+
+  .tabs {
+    display: flex;
+    background: #161f14;
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 57px;
+    z-index: 99;
+  }
+  .tab {
+    flex: 1;
+    padding: 12px 8px;
+    text-align: center;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    color: var(--gray);
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    transition: all 0.15s;
+  }
+  .tab.active { color: var(--green-bright); border-bottom-color: var(--green-bright); background: #1a2618; }
+
+  .panel { display: none; padding: 16px; padding-bottom: 40px; }
+  .panel.active { display: block; }
+
+  .card {
+    background: var(--dark3);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 14px;
+  }
+  .card-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 17px;
+    letter-spacing: 1px;
+    color: var(--green-bright);
+    margin-bottom: 12px;
+  }
+
+  .upload-zone {
+    border: 2px dashed #3a5a38;
+    border-radius: 10px;
+    padding: 28px 16px;
+    text-align: center;
+    cursor: pointer;
+    position: relative;
+    background: var(--dark2);
+    transition: all 0.2s;
+  }
+  .upload-zone:active { border-color: var(--green-bright); background: var(--dark3); }
+  .upload-zone input {
+    position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%;
+  }
+  .upload-icon { font-size: 36px; margin-bottom: 8px; }
+  .upload-text strong { display: block; font-size: 15px; color: var(--cream); margin-bottom: 4px; }
+  .upload-text span { font-size: 12px; color: var(--gray); }
+  .preview-img { width: 100%; max-height: 200px; object-fit: cover; border-radius: 8px; margin-top: 10px; display: none; }
+
+  .service-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 7px; margin-bottom: 12px; }
+  .service-btn {
+    padding: 9px 6px;
+    background: var(--dark2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--gray);
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.15s;
+    user-select: none;
+  }
+  .service-btn.selected { background: var(--green); border-color: var(--green-bright); color: var(--cream); }
+
+  label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    color: var(--gray);
+    display: block;
+    margin-bottom: 5px;
+    margin-top: 10px;
+  }
+  label:first-child { margin-top: 0; }
+
+  input[type="text"],
+  input[type="datetime-local"],
+  input[type="number"],
+  textarea,
+  select {
+    width: 100%;
+    background: var(--dark2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--cream);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    padding: 11px 13px;
+    outline: none;
+    transition: border-color 0.2s;
+    -webkit-appearance: none;
+  }
+  input:focus, textarea:focus, select:focus { border-color: var(--green-bright); }
+  input::placeholder, textarea::placeholder { color: #3a4a38; }
+  textarea { resize: none; height: 72px; }
+  select option { background: var(--dark3); }
+
+  .btn {
+    width: 100%;
+    padding: 14px;
+    border: none;
+    border-radius: 10px;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 19px;
+    letter-spacing: 2px;
+    cursor: pointer;
+    transition: all 0.15s;
+    margin-top: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+  .btn-primary { background: var(--green-light); color: var(--cream); }
+  .btn-primary:active { transform: scale(0.98); background: var(--green-bright); color: var(--dark); }
+  .btn-primary:disabled { background: #2a3a28; color: #3a4a38; cursor: not-allowed; }
+  .btn-secondary { background: transparent; border: 1px solid var(--border); color: var(--gray); font-size: 15px; margin-top: 8px; }
+
+  .loading { display: none; text-align: center; padding: 18px; color: var(--gray); font-size: 13px; }
+  .loading.show { display: block; }
+  .spinner { width: 28px; height: 28px; border: 3px solid var(--border); border-top-color: var(--green-bright); border-radius: 50%; animation: spin 0.7s linear infinite; margin: 0 auto 8px; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .result-box { background: var(--dark2); border: 1px solid var(--green-bright); border-radius: 10px; padding: 16px; margin-top: 14px; display: none; animation: fadeUp 0.3s ease; }
+  .result-box.show { display: block; }
+  @keyframes fadeUp { from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)} }
+  .result-header { font-family: 'Bebas Neue', sans-serif; font-size: 15px; letter-spacing: 1px; color: var(--green-bright); margin-bottom: 10px; }
+
+  .price-big { font-family: 'Bebas Neue', sans-serif; font-size: 48px; color: var(--green-bright); letter-spacing: 2px; line-height: 1; display: block; margin: 6px 0; }
+  .price-range { font-size: 12px; color: var(--gray); text-transform: uppercase; letter-spacing: 1px; }
+  .rec-box { background: var(--green); border-radius: 6px; padding: 8px 12px; margin: 8px 0; font-size: 13px; font-weight: 600; }
+  .why-text { font-size: 13px; line-height: 1.65; color: var(--cream); margin-top: 8px; }
+  .meta-row { display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
+  .badge { display: inline-flex; align-items: center; gap: 4px; background: var(--dark3); border: 1px solid var(--border); border-radius: 20px; padding: 5px 10px; font-size: 11px; color: var(--gray); }
+  .tip-box { background: #1a1500; border: 1px solid #3a2a00; border-radius: 6px; padding: 10px; margin-top: 10px; font-size: 12px; color: var(--gold); }
+
+  .weather-row { display: flex; align-items: center; gap: 8px; padding: 10px; background: var(--dark3); border-radius: 8px; margin-bottom: 10px; font-size: 13px; }
+  .weather-icon { font-size: 24px; }
+
+  .cal-added { background: var(--green); border-radius: 8px; padding: 12px; display: flex; align-items: center; gap: 10px; margin-top: 10px; }
+  .cal-added .icon { font-size: 22px; }
+  .cal-added .text { font-size: 13px; }
+  .cal-added .text strong { display: block; font-weight: 600; }
+  .cal-added .text span { font-size: 11px; opacity: 0.8; }
+
+  .error-box { background: var(--danger-bg); border: 1px solid var(--danger); border-radius: 8px; padding: 12px; margin-top: 12px; font-size: 13px; color: #ff8080; display: none; }
+  .error-box.show { display: block; }
+
+  .connect-banner { background: #1a1500; border: 1px solid var(--gold); border-radius: 10px; padding: 14px; margin-bottom: 14px; display: flex; align-items: center; gap: 12px; cursor: pointer; }
+  .connect-banner .icon { font-size: 28px; }
+  .connect-banner .text strong { display: block; font-size: 14px; color: var(--gold); }
+  .connect-banner .text span { font-size: 12px; color: var(--gray); }
+
+  .log-item { background: var(--dark2); border: 1px solid var(--border); border-radius: 8px; padding: 11px; margin-bottom: 8px; }
+  .log-time { font-size: 10px; color: var(--gray); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 3px; }
+  .log-type { font-size: 13px; font-weight: 600; color: var(--cream); }
+  .log-detail { font-size: 12px; color: var(--gray); margin-top: 2px; }
+  .empty-state { text-align: center; padding: 30px; color: var(--gray); font-size: 13px; }
+
+  .divider { height: 1px; background: var(--border); margin: 12px 0; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="logo">HERON <span>⬡</span></div>
+  <div class="header-right">
+    <div class="cal-status disconnected" id="calStatus" onclick="connectCalendar()">
+      📅 Connect Cal
+    </div>
+    <div class="status-dot"></div>
+  </div>
+</div>
+
+<div class="tabs">
+  <div class="tab active" onclick="switchTab('price')">💵 Price</div>
+  <div class="tab" onclick="switchTab('schedule')">📅 Schedule</div>
+  <div class="tab" onclick="switchTab('log')">📋 Log</div>
+</div>
+
+<!-- PRICE PANEL -->
+<div class="panel active" id="panel-price">
+  <div class="card">
+    <div class="card-title">📸 Photo of the Job</div>
+    <div class="upload-zone" id="uploadZone">
+      <input type="file" accept="image/*" capture="environment" id="photoInput" onchange="handlePhoto(event)">
+      <div class="upload-icon">🌿</div>
+      <div class="upload-text">
+        <strong>Take Photo or Upload</strong>
+        <span>Point at the yard or job site</span>
+      </div>
+    </div>
+    <img id="previewImg" class="preview-img">
+  </div>
+
+  <div class="card">
+    <div class="card-title">🛠 Service</div>
+    <div class="service-grid">
+      <div class="service-btn selected" onclick="selectService(this,'Mowing')">🌾 Mowing</div>
+      <div class="service-btn" onclick="selectService(this,'Edging')">✂️ Edging</div>
+      <div class="service-btn" onclick="selectService(this,'Mulching')">🪨 Mulching</div>
+      <div class="service-btn" onclick="selectService(this,'Weed Removal')">🌱 Weed Removal</div>
+      <div class="service-btn" onclick="selectService(this,'Full Cleanup')">🧹 Full Cleanup</div>
+      <div class="service-btn" onclick="selectService(this,'Lawn Striping')">🦓 Striping</div>
+    </div>
+    <label>Extra Notes</label>
+    <textarea id="priceNotes" placeholder="Overgrown, steep hill, tight fence, large beds..."></textarea>
+    <button class="btn btn-primary" id="priceBtn" onclick="getPrice()">GET ESTIMATE</button>
+  </div>
+
+  <div class="loading" id="priceLoading"><div class="spinner"></div>Analyzing your job...</div>
+  <div class="error-box" id="priceError"></div>
+  <div class="result-box" id="priceResult">
+    <div class="result-header">⚡ ESTIMATE</div>
+    <div id="priceResultContent"></div>
+  </div>
+</div>
+
+<!-- SCHEDULE PANEL -->
+<div class="panel" id="panel-schedule">
+  <div id="calBanner" class="connect-banner" onclick="connectCalendar()" style="display:none;">
+    <div class="icon">📅</div>
+    <div class="text">
+      <strong>Connect Google Calendar</strong>
+      <span>Tap to auto-add jobs — one time setup</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📍 Job Info</div>
+    <label>Customer Name</label>
+    <input type="text" id="custName" placeholder="John Smith">
+    <label>Job Address</label>
+    <input type="text" id="jobAddress" placeholder="123 Oak St, Towson MD">
+    <label>Service</label>
+    <select id="schedService">
+      <option>Mowing</option>
+      <option>Edging</option>
+      <option>Mulching</option>
+      <option>Weed Removal</option>
+      <option>Full Cleanup</option>
+      <option>Lawn Striping</option>
+    </select>
+    <label>Date & Time</label>
+    <input type="datetime-local" id="jobDateTime">
+    <label>Duration</label>
+    <select id="jobDuration">
+      <option value="60">~1 hour</option>
+      <option value="90">~1.5 hours</option>
+      <option value="120" selected>~2 hours</option>
+      <option value="180">~3 hours</option>
+      <option value="240">~4 hours</option>
+    </select>
+    <label>Price ($)</label>
+    <input type="text" id="jobPrice" placeholder="75">
+    <label>Notes</label>
+    <textarea id="schedNotes" placeholder="Gate code, bring extra bags, call ahead..."></textarea>
+    <button class="btn btn-primary" id="schedBtn" onclick="scheduleJob()">SCHEDULE JOB</button>
+  </div>
+
+  <div class="loading" id="schedLoading"><div class="spinner"></div>Checking weather & adding to calendar...</div>
+  <div class="error-box" id="schedError"></div>
+  <div class="result-box" id="schedResult">
+    <div class="result-header">✅ JOB SCHEDULED</div>
+    <div id="schedResultContent"></div>
+  </div>
+</div>
+
+<!-- LOG PANEL -->
+<div class="panel" id="panel-log">
+  <div class="card">
+    <div class="card-title">📋 Session Log</div>
+    <div id="logList"><div class="empty-state">No activity yet this session</div></div>
+  </div>
+</div>
+
+<script>
+// ─── STATE ───────────────────────────────────────────
+let selectedService = 'Mowing';
+let photoBase64 = null;
+let sessionLog = [];
+let calTokens = null;
+
+// Set default datetime
+const d = new Date();
+d.setDate(d.getDate() + 1);
+d.setHours(8,0,0,0);
+document.getElementById('jobDateTime').value = d.toISOString().slice(0,16);
+
+// Load saved tokens
+try {
+  const saved = localStorage.getItem('heron_tokens');
+  if (saved) {
+    calTokens = JSON.parse(saved);
+    updateCalStatus(true);
+  } else {
+    document.getElementById('calBanner').style.display = 'flex';
+  }
+} catch(e) {}
+
+// ─── UI HELPERS ──────────────────────────────────────
+function switchTab(tab) {
+  ['price','schedule','log'].forEach((t,i) => {
+    document.querySelectorAll('.tab')[i].classList.toggle('active', t===tab);
+    document.getElementById('panel-'+t).classList.toggle('active', t===tab);
+  });
+}
+
+function selectService(el, svc) {
+  document.querySelectorAll('.service-btn').forEach(b => b.classList.remove('selected'));
+  el.classList.add('selected');
+  selectedService = svc;
+}
+
+function handlePhoto(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = ev => {
+    photoBase64 = ev.target.result.split(',')[1];
+    const img = document.getElementById('previewImg');
+    img.src = ev.target.result;
+    img.style.display = 'block';
+  };
+  reader.readAsDataURL(file);
+}
+
+function updateCalStatus(connected) {
+  const el = document.getElementById('calStatus');
+  const banner = document.getElementById('calBanner');
+  if (connected) {
+    el.textContent = '✅ Cal Connected';
+    el.className = 'cal-status connected';
+    if (banner) banner.style.display = 'none';
+  } else {
+    el.textContent = '📅 Connect Cal';
+    el.className = 'cal-status disconnected';
+    if (banner) banner.style.display = 'flex';
+  }
+}
+
+function setLoading(type, show) {
+  document.getElementById(type+'Loading').classList.toggle('show', show);
+  const btn = document.getElementById(type+'Btn');
+  if (btn) btn.disabled = show;
+}
+function showResult(id) { document.getElementById(id).classList.add('show'); }
+function hideResult(id) { document.getElementById(id).classList.remove('show'); }
+function showError(id, msg) { const e = document.getElementById(id); e.innerHTML = msg; e.classList.add('show'); }
+function hideError(id) { document.getElementById(id).classList.remove('show'); }
+
+function addLog(type, detail) {
+  sessionLog.unshift({ type, detail, time: new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'}) });
+  const list = document.getElementById('logList');
+  list.innerHTML = sessionLog.map(l => `
+    <div class="log-item">
+      <div class="log-time">${l.time}</div>
+      <div class="log-type">${l.type}</div>
+      <div class="log-detail">${l.detail}</div>
+    </div>
+  `).join('');
+}
+
+// ─── GOOGLE CALENDAR ─────────────────────────────────
+async function connectCalendar() {
+  try {
+    const res = await fetch('/api/auth-url');
+    const data = await res.json();
+    const popup = window.open(data.url, 'google-auth', 'width=500,height=600');
+    
+    // Poll for token storage
+    const check = setInterval(() => {
+      try {
+        const saved = localStorage.getItem('heron_tokens');
+        if (saved) {
+          calTokens = JSON.parse(saved);
+          updateCalStatus(true);
+          clearInterval(check);
+          if (popup && !popup.closed) popup.close();
+        }
+      } catch(e) {}
+    }, 500);
+
+    // Stop checking after 2 min
+    setTimeout(() => clearInterval(check), 120000);
+  } catch(err) {
+    alert('Could not connect to Google Calendar: ' + err.message);
+  }
+}
+
+async function addToCalendar(eventData) {
+  if (!calTokens) return null;
+  try {
+    const res = await fetch('/api/add-event', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ tokens: calTokens, event: eventData })
+    });
+    const data = await res.json();
+    if (data.newTokens) {
+      calTokens = data.newTokens;
+      localStorage.setItem('heron_tokens', JSON.stringify(calTokens));
+    }
+    return data;
+  } catch(err) {
+    console.error('Calendar error:', err);
+    return null;
+  }
+}
+
+// ─── WEATHER ─────────────────────────────────────────
+async function getWeather(lat, lon, date) {
+  try {
+    const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&daily=weathercode,precipitation_probability_max,temperature_2m_max,wind_speed_10m_max&timezone=America%2FNew_York&start_date=${date}&end_date=${date}`;
+    const res = await fetch(url);
+    const data = await res.json();
+    if (!data.daily) return null;
+    const codes = {0:'☀️ Clear',1:'🌤 Mostly Clear',2:'⛅ Partly Cloudy',3:'☁️ Overcast',45:'🌫 Foggy',51:'🌦 Light Drizzle',61:'🌧 Rain',63:'🌧 Rain',65:'⛈ Heavy Rain',80:'🌦 Showers',95:'⛈ Thunderstorm'};
+    return {
+      condition: codes[data.daily.weathercode[0]] || '❓ Unknown',
+      precip: data.daily.precipitation_probability_max[0],
+      tempF: Math.round(data.daily.temperature_2m_max[0] * 9/5 + 32),
+      wind: Math.round(data.daily.wind_speed_10m_max[0] * 0.621)
+    };
+  } catch { return null; }
+}
+
+async function geocode(address) {
+  try {
+    const res = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(address)}&limit=1`);
+    const data = await res.json();
+    if (data.length > 0) return { lat: parseFloat(data[0].lat), lon: parseFloat(data[0].lon) };
+    return null;
+  } catch { return null; }
+}
+
+// ─── CLAUDE API ──────────────────────────────────────
+async function callClaude(messages, system) {
+  const res = await fetch('https://api.anthropic.com/v1/messages', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      model: 'claude-sonnet-4-20250514',
+      max_tokens: 1000,
+      system,
+      messages
+    })
+  });
+  if (!res.ok) {
+    const err = await res.json();
+    throw new Error(err.error?.message || 'Claude API error');
+  }
+  const data = await res.json();
+  return data.content[0].text;
+}
+
+// ─── GET PRICE ───────────────────────────────────────
+async function getPrice() {
+  if (!photoBase64) { showError('priceError', '⚠️ Take or upload a photo first.'); return; }
+  setLoading('price', true);
+  hideResult('priceResult');
+  hideError('priceError');
+
+  try {
+    const system = `You are a pricing assistant for Heron Landscaping, a professional landscaping company in Towson, Maryland run by Quinn.
+Analyze the yard photo and give a realistic price estimate.
+
+Towson/Baltimore area pricing:
+- Mowing: $35-$150 (lot size, obstacles, grass height)
+- Edging: $25-$60
+- Mulching: $75-$350 (bed count, bag estimate at $5/bag installed)
+- Weed Removal: $50-$200 (severity)
+- Full Cleanup: $100-$400
+- Lawn Striping: $50-$120
+
+Respond EXACTLY in this format (no extra text):
+RANGE: $[low]-$[high]
+RECOMMENDED: $[best price]
+WHY: [2 sentences about what you see]
+TIME: [X-Y hours]
+UPSELL: [one tip for Quinn to make more money on this job]`;
+
+    const result = await callClaude([{
+      role: 'user',
+      content: [
+        { type: 'image', source: { type: 'base64', media_type: 'image/jpeg', data: photoBase64 } },
+        { type: 'text', text: `Service: ${selectedService}\nNotes: ${document.getElementById('priceNotes').value || 'none'}` }
+      ]
+    }], system);
+
+    const get = (key) => { const m = result.match(new RegExp(key + ':\\s*(.+)')); return m ? m[1].trim() : ''; };
+    const range = get('RANGE');
+    const rec = get('RECOMMENDED');
+    const why = get('WHY');
+    const time = get('TIME');
+    const upsell = get('UPSELL');
+
+    document.getElementById('priceResultContent').innerHTML = `
+      <div class="price-range">Estimate Range</div>
+      <span class="price-big">${range}</span>
+      <div class="rec-box">✅ Charge: <strong>${rec}</strong></div>
+      <div class="why-text">${why}</div>
+      <div class="meta-row">
+        <div class="badge">⏱ ${time}</div>
+        <div class="badge">🛠 ${selectedService}</div>
+      </div>
+      ${upsell ? `<div class="tip-box">💡 Upsell: ${upsell}</div>` : ''}
+    `;
+    showResult('priceResult');
+    addLog('💵 Price Estimate', `${selectedService} — ${rec}`);
+
+    // Pre-fill schedule tab
+    document.getElementById('schedService').value = selectedService;
+    document.getElementById('jobPrice').value = rec.replace(/[^0-9]/g,'');
+  } catch(err) {
+    showError('priceError', '⚠️ ' + err.message);
+  } finally {
+    setLoading('price', false);
+  }
+}
+
+// ─── SCHEDULE JOB ────────────────────────────────────
+async function scheduleJob() {
+  const name = document.getElementById('custName').value.trim();
+  const address = document.getElementById('jobAddress').value.trim();
+  const service = document.getElementById('schedService').value;
+  const datetime = document.getElementById('jobDateTime').value;
+  const duration = parseInt(document.getElementById('jobDuration').value);
+  const price = document.getElementById('jobPrice').value;
+  const notes = document.getElementById('schedNotes').value;
+
+  if (!address || !datetime) { showError('schedError', '⚠️ Enter an address and date/time.'); return; }
+
+  setLoading('sched', true);
+  hideResult('schedResult');
+  hideError('schedError');
+
+  try {
+    // Get weather
+    const geo = await geocode(address + ', Maryland');
+    const dateStr = datetime.split('T')[0];
+    let weather = null;
+    if (geo) weather = await getWeather(geo.lat, geo.lon, dateStr);
+
+    // Ask Claude
+    const weatherText = weather
+      ? `${weather.condition}, ${weather.tempF}°F, ${weather.precip}% rain, wind ${weather.wind} mph`
+      : 'Weather unavailable';
+
+    const system = `You are Quinn's scheduling assistant for Heron Landscaping in Towson MD.
+Give a brief weather assessment and scheduling recommendation.
+Be direct. Under 80 words total.
+Format EXACTLY:
+WEATHER: [go / caution / reschedule — one word then brief reason]
+WINDOW: [confirm time or suggest better window if needed]
+NOTE: [one practical tip for this job]`;
+
+    const claudeResult = await callClaude([{
+      role: 'user',
+      content: `Job: ${service} at ${address}\nCustomer: ${name||'Unknown'}\nTime: ${datetime}\nDuration: ${duration}min\nPrice: $${price||'TBD'}\nWeather: ${weatherText}\nNotes: ${notes||'none'}`
+    }], system);
+
+    const get = (key) => { const m = claudeResult.match(new RegExp(key+':\\s*(.+)')); return m ? m[1].trim() : ''; };
+    const weatherAssess = get('WEATHER');
+    const window_ = get('WINDOW');
+    const note = get('NOTE');
+
+    const isGo = weatherAssess.toLowerCase().startsWith('go');
+    const isCaution = weatherAssess.toLowerCase().startsWith('caution');
+    const weatherColor = isGo ? 'var(--green-bright)' : isCaution ? 'var(--gold)' : 'var(--danger)';
+    const weatherEmoji = isGo ? '✅' : isCaution ? '⚠️' : '⛔';
+
+    let html = '';
+
+    if (weather) {
+      html += `<div class="weather-row">
+        <div class="weather-icon">${weather.condition.split(' ')[0]}</div>
+        <div>
+          <div style="font-weight:600;font-size:13px;">${weather.condition.split(' ').slice(1).join(' ')} — ${weather.tempF}°F</div>
+          <div style="font-size:11px;color:var(--gray);">${weather.precip}% rain · ${weather.wind} mph wind</div>
+        </div>
+      </div>`;
+    }
+
+    html += `<div style="margin-bottom:8px;font-size:13px;"><span style="color:${weatherColor};font-weight:600;">${weatherEmoji} ${weatherAssess}</span></div>`;
+    if (window_) html += `<div style="font-size:13px;margin-bottom:6px;">🕐 ${window_}</div>`;
+    if (note) html += `<div class="tip-box">💡 ${note}</div>`;
+
+    // Add to Google Calendar automatically
+    const startDT = new Date(datetime);
+    const endDT = new Date(startDT.getTime() + duration * 60000);
+
+    const calEvent = {
+      summary: `🌿 ${service} — ${name || address}`,
+      location: address,
+      description: `Service: ${service}\nCustomer: ${name||'N/A'}\nPrice: $${price||'TBD'}\nDuration: ${duration} min\nNotes: ${notes||'none'}\n\nScheduled via Heron Assistant`,
+      start: { dateTime: startDT.toISOString(), timeZone: 'America/New_York' },
+      end: { dateTime: endDT.toISOString(), timeZone: 'America/New_York' },
+      colorId: '2'
+    };
+
+    let calHtml = '';
+    if (calTokens) {
+      const calResult = await addToCalendar(calEvent);
+      if (calResult && calResult.success) {
+        calHtml = `<div class="cal-added">
+          <div class="icon">📅</div>
+          <div class="text">
+            <strong>Added to Google Calendar</strong>
+            <span>${service} on ${startDT.toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric'})} at ${startDT.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})}</span>
+          </div>
+        </div>`;
+      } else {
+        calHtml = `<div class="error-box show" style="margin-top:10px;">⚠️ Calendar add failed — check connection</div>`;
+      }
+    } else {
+      // Fallback link
+      const fmt = d2 => d2.toISOString().replace(/[-:]/g,'').split('.')[0]+'Z';
+      const calUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(calEvent.summary)}&dates=${fmt(startDT)}/${fmt(endDT)}&details=${encodeURIComponent(calEvent.description)}&location=${encodeURIComponent(address)}`;
+      calHtml = `<a href="${calUrl}" target="_blank" style="text-decoration:none;">
+        <div class="cal-added" style="background:#1a1500;border:1px solid var(--gold);">
+          <div class="icon">📅</div>
+          <div class="text">
+            <strong style="color:var(--gold);">Tap to Add to Calendar</strong>
+            <span>Connect Google Calendar for auto-add</span>
+          </div>
+          <span style="margin-left:auto;color:var(--gold);">→</span>
+        </div>
+      </a>`;
+    }
+
+    html += calHtml;
+    document.getElementById('schedResultContent').innerHTML = html;
+    showResult('schedResult');
+    addLog('📅 Job Scheduled', `${service} @ ${address} — ${new Date(datetime).toLocaleDateString()}`);
+
+  } catch(err) {
+    showError('schedError', '⚠️ ' + err.message);
+  } finally {
+    setLoading('sched', false);
+  }
+}
+</script>
+</body>
+</html>

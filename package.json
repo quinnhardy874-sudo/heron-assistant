@@ -1,0 +1,11 @@
+{
+  "name": "heron-assistant",
+  "version": "1.0.0",
+  "description": "Heron Landscaping Job Assistant",
+  "scripts": {
+    "dev": "vercel dev"
+  },
+  "dependencies": {
+    "googleapis": "^140.0.0"
+  }
+}
