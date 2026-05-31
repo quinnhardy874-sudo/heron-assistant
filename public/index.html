@@ -536,16 +536,20 @@ async function geocode(address) {
   } catch { return null; }
 }
 
-// ─── CLAUDE API ──────────────────────────────────────
-async function callClaude(messages, system) {
+// ─── CLAUDE API (via backend) ────────────────────────
+async function callClaudeSchedule(userContent, system) {
   const res = await fetch('https://api.anthropic.com/v1/messages', {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: {
+      'Content-Type': 'application/json',
+      'x-api-key': window.__ANTHROPIC_KEY__ || '',
+      'anthropic-version': '2023-06-01'
+    },
     body: JSON.stringify({
-      model: 'claude-sonnet-4-20250514',
-      max_tokens: 1000,
+      model: 'claude-sonnet-4-5',
+      max_tokens: 500,
       system,
-      messages
+      messages: [{ role: 'user', content: userContent }]
     })
   });
   if (!res.ok) {
@@ -564,31 +568,21 @@ async function getPrice() {
   hideError('priceError');
 
   try {
-    const system = `You are a pricing assistant for Heron Landscaping, a professional landscaping company in Towson, Maryland run by Quinn.
-Analyze the yard photo and give a realistic price estimate.
-
-Towson/Baltimore area pricing:
-- Mowing: $35-$150 (lot size, obstacles, grass height)
-- Edging: $25-$60
-- Mulching: $75-$350 (bed count, bag estimate at $5/bag installed)
-- Weed Removal: $50-$200 (severity)
-- Full Cleanup: $100-$400
-- Lawn Striping: $50-$120
-
-Respond EXACTLY in this format (no extra text):
-RANGE: $[low]-$[high]
-RECOMMENDED: $[best price]
-WHY: [2 sentences about what you see]
-TIME: [X-Y hours]
-UPSELL: [one tip for Quinn to make more money on this job]`;
-
-    const result = await callClaude([{
-      role: 'user',
-      content: [
-        { type: 'image', source: { type: 'base64', media_type: 'image/jpeg', data: photoBase64 } },
-        { type: 'text', text: `Service: ${selectedService}\nNotes: ${document.getElementById('priceNotes').value || 'none'}` }
-      ]
-    }], system);
+    const estimateRes = await fetch('/api/estimate', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        photoBase64,
+        mediaType: 'image/jpeg',
+        service: selectedService,
+        notes: document.getElementById('priceNotes').value || ''
+      })
+    });
+    if (!estimateRes.ok) {
+      const err = await estimateRes.json();
+      throw new Error(err.error || 'Estimate failed');
+    }
+    const { text: result } = await estimateRes.json();
 
     const get = (key) => { const m = result.match(new RegExp(key + ':\\s*(.+)')); return m ? m[1].trim() : ''; };
     const range = get('RANGE');
@@ -657,10 +651,10 @@ WEATHER: [go / caution / reschedule — one word then brief reason]
 WINDOW: [confirm time or suggest better window if needed]
 NOTE: [one practical tip for this job]`;
 
-    const claudeResult = await callClaude([{
-      role: 'user',
-      content: `Job: ${service} at ${address}\nCustomer: ${name||'Unknown'}\nTime: ${datetime}\nDuration: ${duration}min\nPrice: $${price||'TBD'}\nWeather: ${weatherText}\nNotes: ${notes||'none'}`
-    }], system);
+    const claudeResult = await callClaudeSchedule(
+      `Job: ${service} at ${address}\nCustomer: ${name||'Unknown'}\nTime: ${datetime}\nDuration: ${duration}min\nPrice: $${price||'TBD'}\nWeather: ${weatherText}\nNotes: ${notes||'none'}`,
+      system
+    );
 
     const get = (key) => { const m = claudeResult.match(new RegExp(key+':\\s*(.+)')); return m ? m[1].trim() : ''; };
     const weatherAssess = get('WEATHER');
