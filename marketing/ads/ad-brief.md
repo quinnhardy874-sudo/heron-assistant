@@ -6,7 +6,9 @@ Built 2026-09-27. Everything below is **paused or unpublished**. Nothing is spen
 
 **Campaign:** `Roofline Kit - Sales - Purchases - Oct 2026` (id `120254742528720712`)
 - Objective: Sales. Budget: $30/day at the campaign level, lowest-cost bidding. Status: PAUSED.
-- It has **no ad set yet.** A Sales ad set needs a Meta Pixel, and none is connected (see Blocker).
+- **Ad set:** `RK - US Broad - Advantage+ - Purchase` (id `120254742769230712`). It optimizes for Purchase on pixel `1025353737193227`, which is owned by the heron.landscaping business and shared with this ad account. Targeting: US, Advantage+ audience (age 25+ is a suggestion, not a hard limit), Advantage+ placements. Status: PAUSED.
+- **Ads (all PAUSED):** D `120254742799640712`, E `120254742800310712`, F `120254742801830712`, G `120254742802420712`.
+- To launch, turn on the campaign, then the ad set, then the ads, in Ads Manager.
 
 **Creatives**, all on the Roofline Kit Page with a Shop Now button to `/products/custom-roofline-light-kit`:
 
@@ -24,16 +26,8 @@ All four images are **AI-generated.** Meta can show an "AI info" label in some r
 - **"RK - Ad B - How it works (story)"** (hash `2180e856…`): garbled text ("BEAUTREI WIHITE C9") and no lights on the house.
 - Both sit inside the old paused Traffic campaign `120254709582440712`. Leave that campaign off, or delete it.
 
-## Blocker: the Meta Pixel
-`ads_get_datasets` returns nothing. To fix it, install the **Facebook & Instagram** app in Shopify (https://apps.shopify.com/facebook). Connect the Roofline Kit Page and the Quinn Hardy ad account, and set data sharing to **Maximum**. Then place a test order and refund it.
-
-## Once the pixel exists (about 2 minutes of work)
-1. Create an ad set under the campaign above:
-   - Optimization: OFFSITE_CONVERSIONS
-   - Promoted object: `{"pixel_id":"<id>","custom_event_type":"PURCHASE"}`
-   - Targeting: US broad with Advantage+ audience, Advantage+ placements
-2. Create 4 ads from creatives D, E, F and G3.
-3. Turn on the campaign, the ad set and the ads. **You have to do this step yourself.** This session's safety settings block me from switching paid ads on.
+## Pixel status
+The pixel was installed through the Shopify Facebook & Instagram app on 2026-09-27 and is now shared with the ad account. It had not recorded any events yet at build time, because the Shopify sync was still running. Before launch, place a test order and refund it. Then confirm that Purchase shows up in Events Manager.
 
 If you get fewer than about 10 purchases in the first week, Meta doesn't have enough data to optimize for purchases. In that case, duplicate the ad set and optimize for **Add to Cart** until purchases pick up, then switch back.
 
