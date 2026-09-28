@@ -139,7 +139,7 @@ What does a professional holiday light install include?
 
 ✅ A custom design for your house
 ✅ Commercial-grade lights
-✅ Install, timer setup and service calls
+✅ Install and timer setup
 ✅ Takedown in January
 
 Get a free quote in Towson and Baltimore County: 410-830-0843
