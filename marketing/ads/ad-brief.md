@@ -7,7 +7,7 @@ Built 2026-09-27. Everything below is **paused or unpublished**. Nothing is spen
 **Campaign:** `Roofline Kit - Sales - Purchases - Oct 2026` (id `120254742528720712`)
 - Objective: Sales. Budget: $30/day at the campaign level, lowest-cost bidding. Status: PAUSED.
 - **Ad set:** `RK - US Broad - Advantage+ - Purchase` (id `120254742769230712`). It optimizes for Purchase on pixel `1025353737193227`, which is owned by the heron.landscaping business and shared with this ad account. Targeting: US, Advantage+ audience (age 25+ is a suggestion, not a hard limit), Advantage+ placements. Status: PAUSED.
-- **Ads (all PAUSED):** D `120254742799640712`, E `120254742800310712`, F `120254742801830712`, G `120254742802420712`, H "Christmas card look" `120254742819330712`, I "No cutting, no 300 bulbs" `120254742819510712`, J "Measure from the ground" `120254742820630712`.
+- **Ads (all PAUSED):** D `120254742799640712`, E `120254742800310712`, F `120254742801830712`, G `120254742802420712`, H "Christmas card look" `120254742819330712`, I "No cutting, no 300 bulbs" `120254742819510712`, J2 "We check your measurements" `120254758335930712` (replaced J, which had a measuring claim that did not match the product page).
 - Seven ads at $30/day is a lot for one ad set. Meta will push spend to 2–3 of them and starve the rest, which is fine. After about 5 days, turn off any ad with a lot of impressions but no add-to-carts.
 - To launch, turn on the campaign, then the ad set, then the ads, in Ads Manager.
 
