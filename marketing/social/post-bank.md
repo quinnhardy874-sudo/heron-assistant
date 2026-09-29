@@ -7,6 +7,8 @@ Rules:
 - Roofline Kit posts link to the product page: https://nkaczq-yy.myshopify.com/products/custom-roofline-light-kit
 - Heron posts end with the phone number: 410-830-0843 (call or text).
 - Hero image for Roofline Kit photo posts: https://cdn.shopify.com/s/files/1/0779/7656/7862/files/rk-hero-colonial_bb9cad85-105a-4d76-9238-264a923fc02f.png?v=1790123530
+- Lighting scene image for Heron lighting posts (AI-generated, illustrative, never captioned as a Heron job): https://cdn.shopify.com/s/files/1/0779/7656/7862/files/social-dusk-brick-colonial.jpg?v=1790607840
+- Fall yard image for Heron yard posts (AI-generated, illustrative, never captioned as a Heron job): https://cdn.shopify.com/s/files/1/0779/7656/7862/files/social-fall-yard-cleanup.jpg?v=1790684872
 - Once Quinn sends real job photos, use those instead and retire the text-only posts.
 
 ---
@@ -90,21 +92,21 @@ All four come cut to your roofline with every bulb already on.
 
 ## Heron Landscaping (in person, Towson and Baltimore County)
 
-### HL-01 (text)
+### HL-01 (photo: lighting scene)
 🎄 Holiday lighting season is booking now in Towson and Baltimore County.
 
 We design, install, and take down your Christmas lights. You never touch a ladder. Custom-fit to your roofline, hung clean and straight.
 
 Call or text for a free quote: 410-830-0843
 
-### HL-02 (text)
+### HL-02 (photo: fall yard)
 Leaves are starting to drop. 🍂
 
 Heron Landscaping does fall cleanups across Towson: leaf removal, bed cleanup, mulch refresh and a final mow, so your yard is ready for winter.
 
 Spots fill up fast in October. Call or text 410-830-0843
 
-### HL-03 (text)
+### HL-03 (photo: lighting scene)
 Why hire out your Christmas lights?
 
 🪜 No ladders, no roof
@@ -114,27 +116,27 @@ Why hire out your Christmas lights?
 
 Towson and Baltimore County. Free quotes: 410-830-0843
 
-### HL-04 (text)
+### HL-04 (photo: fall yard)
 Local, owner-run, and we show up when we say we will.
 
 Heron Landscaping has been serving Towson homeowners with mowing, edging, mulching, cleanups, and now holiday lighting installs.
 
 Call or text Quinn: 410-830-0843
 
-### HL-05 (text)
+### HL-05 (photo: lighting scene)
 Holiday lighting tip: book early.
 
 Installers fill their calendars by mid-November, and everyone wants lights up by Thanksgiving weekend. Lock in your install date now and you're done thinking about it.
 
 Towson and Baltimore County: 410-830-0843
 
-### HL-06 (text)
+### HL-06 (photo: fall yard)
 Fall is the best time to mulch and clean up beds. It protects roots over winter and you start spring ahead.
 
 Heron Landscaping: fall cleanups, mulch, edging. Towson and nearby.
 Call or text 410-830-0843
 
-### HL-07 (text)
+### HL-07 (photo: lighting scene)
 What does a professional holiday light install include?
 
 ✅ A custom design for your house
@@ -144,18 +146,18 @@ What does a professional holiday light install include?
 
 Get a free quote in Towson and Baltimore County: 410-830-0843
 
-### HL-08 (text)
+### HL-08 (photo: lighting scene)
 Tag a neighbor whose house always looks amazing at Christmas 👇
 
 Want yours to be that house this year? We install, you enjoy.
 Heron Holiday Lighting: 410-830-0843
 
-### HL-09 (text)
+### HL-09 (photo: fall yard)
 Last mow of the season plus a leaf cleanup = a yard that looks sharp all winter.
 
 Booking fall cleanups now across Towson. Call or text 410-830-0843
 
-### HL-10 (text)
+### HL-10 (photo: lighting scene)
 Our holiday install calendar is filling up. If you've been thinking about it, now's the time.
 
 Free quote, no pressure: 410-830-0843
