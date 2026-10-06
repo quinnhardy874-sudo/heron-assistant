@@ -4,6 +4,9 @@ One post a day, alternating Pages: **Roofline Kit** on odd days of the month, **
 
 Rules:
 - No fake reviews, testimonials, customer names or made-up numbers.
+- No engagement bait: never ask people to comment, tag, share, react or vote. Facebook demotes it, with stricter demotions for repeat offenders.
+- No invented scarcity ("spots filling fast") unless Quinn confirms it's true.
+- One post per day, max. See safe-posting-rules.md.
 - Roofline Kit posts link to the product page: https://nkaczq-yy.myshopify.com/products/custom-roofline-light-kit
 - Heron posts end with the phone number: 410-830-0843 (call or text).
 - Hero image for Roofline Kit photo posts: https://cdn.shopify.com/s/files/1/0779/7656/7862/files/rk-hero-colonial_bb9cad85-105a-4d76-9238-264a923fc02f.png?v=1790123530
@@ -31,7 +34,8 @@ Real question: what's the worst part of putting up Christmas lights?
 💡 Screwing in 300 bulbs
 🪜 The ladder
 
-We took care of the first three. Every Roofline Kit arrives cut to your house with bulbs and clips already on. Drop your answer below 👇
+We took care of the first three. Every Roofline Kit arrives cut to your house with bulbs and clips already on. All that's left is the clip-up.
+👉 https://nkaczq-yy.myshopify.com/products/custom-roofline-light-kit
 
 ### RK-03 (photo: hero)
 Every run in your kit comes labeled for exactly where it goes: front gutter, garage peak, left gable.
@@ -83,7 +87,7 @@ Clip it up in November, take it down in January, reuse it every year. Great for 
 👉 https://nkaczq-yy.myshopify.com/products/custom-roofline-light-kit
 
 ### RK-10 (photo: hero)
-Warm white, cool white, multicolor, or red & green. Which one is your house? 👇
+Four ways to light your roofline: warm white, cool white, multicolor, or red & green.
 
 All four come cut to your roofline with every bulb already on.
 👉 https://nkaczq-yy.myshopify.com/products/custom-roofline-light-kit
@@ -147,9 +151,9 @@ What does a professional holiday light install include?
 Get a free quote in Towson and Baltimore County: 410-830-0843
 
 ### HL-08 (photo: lighting scene)
-Tag a neighbor whose house always looks amazing at Christmas 👇
+Every street has that one house that looks amazing at Christmas.
 
-Want yours to be that house this year? We install, you enjoy.
+Want yours to be that house this year? We design it, hang it, and take it down in January.
 Heron Holiday Lighting: 410-830-0843
 
 ### HL-09 (photo: fall yard)
@@ -158,7 +162,7 @@ Last mow of the season plus a leaf cleanup = a yard that looks sharp all winter.
 Booking fall cleanups now across Towson. Call or text 410-830-0843
 
 ### HL-10 (photo: lighting scene)
-Our holiday install calendar is filling up. If you've been thinking about it, now's the time.
+Holiday install dates go fast once November hits. If you've been thinking about it, now's a good time to get on the calendar.
 
 Free quote, no pressure: 410-830-0843
 Towson and Baltimore County.
