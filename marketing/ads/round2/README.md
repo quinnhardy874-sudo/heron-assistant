@@ -1,4 +1,29 @@
-# Round 2 Ads (built 2026-10-08), all PAUSED
+# Round 2 Ads (built 2026-10-08)
+
+## LIVE since 2026-10-08: $2/day per ad, $12/day total (Quinn approved)
+Each ad has its own ad set with a $2/day budget, so every ad gets equal spend.
+
+**Heron campaign** `120254934629130712`: Leads objective, call ads, people within 15 miles of Towson
+
+| Ad | Ad set | Ad |
+|---|---|---|
+| H1 Ladder safety | `120254934636170712` | `120254934641690712` |
+| H2 The house | `120254934637040712` | `120254934642320712` |
+| H3 Book October | `120254934638700712` | `120254934643010712` |
+
+**Roofline Kit campaign** `120254934632910712`: Traffic objective (landing page views), Mid-Atlantic/NE metros, auto-stops Nov 15
+
+| Ad | Ad set | Ad |
+|---|---|---|
+| R1 Made to order | `120254934639250712` | `120254934643210712` |
+| R2 Labeled | `120254934639770712` | `120254934643510712` |
+| R3 Price | `120254934640430712` | `120254934644380712` |
+
+**5-day recap** is scheduled for 2026-10-13 at 10 AM ET. Budget changes need Quinn's OK.
+
+The tables further down list the earlier $5/day campaigns (`120254179328010712` and `120254934585800712`). Those were built first and are still **paused**. They are superseded by the live campaigns above.
+
+---
 
 Built from the research in `../../research/proven-ads.md` plus new research done today. Nothing is live. Quinn approves before anything spends.
 
