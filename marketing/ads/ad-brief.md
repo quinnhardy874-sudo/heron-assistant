@@ -1,3 +1,19 @@
+# Heron Holiday Lighting: local call ad (rebuilt 2026-10-08)
+
+- **Campaign:** `Heron Holiday Lighting` (`120254179328010712`), Leads objective. Budget lowered from $10/day to **$5/day**. PAUSED.
+- **Old ad set:** `Heron Holiday Bookings` (`120254179327990712`), now PAUSED.
+  - It targeted the **entire US**, which is the wrong audience for a local install service.
+  - Results: spent $47.78, 1,740 impressions, 3.28% CTR, 41 link clicks, no tracked leads.
+  - Its copy used invented scarcity ("first 10 people", "spots fill fast"). Don't reuse it.
+- **New ad set:** `Heron - Towson 15mi - Calls` (`120254934504440712`)
+  - Optimizes for calls.
+  - Targets people who live within 15 miles of Towson (39.4015, -76.6019). Age 25+ is a suggestion, not a hard limit.
+  - Status: PAUSED.
+- **New ad:** `Heron - Skip the ladder - Towson` (`120254934516040712`)
+  - Has a Call Now button to 410-830-0843.
+  - The image is the AI dusk-house scene, labeled "Example design". Replace it with a real Heron job as soon as there is one.
+  - Status: PAUSED.
+
 # Roofline Kit: Meta Ads Build
 
 Built 2026-09-27. Everything below is **paused or unpublished**. Nothing is spending.
