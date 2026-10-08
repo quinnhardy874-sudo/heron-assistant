@@ -19,7 +19,7 @@ The Christmas Light Emporium is the only DTC roofline-kit seller with active ads
 | **"Made To Order. Production Is Open"** | Aug 18 | **~51** | Handmade / made to order |
 | "Handmade To Order Christmas Displays" | Sep 1 | ~37 | Handmade |
 | "Colors Never Fade, Lenses Never Crack" | Sep 1 | ~37 | Durability / quality |
-| "Color Morphing Mini Lights" | Sep 29 | ~9 | New product |
+| "Color Morphing Mini Lights" | Sep 28 | ~10 | New product |
 
 Open them: [capacity ad](https://www.facebook.com/ads/library/?id=1575875007461298) · [made-to-order ad](https://www.facebook.com/ads/library/?id=1397735555597335) · [handmade ad](https://www.facebook.com/ads/library/?id=2288574171903672) · [durability ad](https://www.facebook.com/ads/library/?id=987364264313747)
 
