@@ -27,7 +27,7 @@ Reuse it every year. $2.99/ft.
 👉 https://nkaczq-yy.myshopify.com/products/custom-roofline-light-kit
 
 ### RK-02 (text)
-Real question: what's the worst part of putting up Christmas lights?
+The four worst parts of putting up Christmas lights:
 
 🔌 Untangling last year's strands
 ✂️ Cutting wire to fit
@@ -51,7 +51,7 @@ Before we cut a single foot, we check your order against satellite imagery of yo
 Size your house here 👉 https://nkaczq-yy.myshopify.com/products/custom-roofline-light-kit
 
 ### RK-05 (text)
-Installers charge $5–10 a foot. Every single year.
+Full-service installers often charge $5–10 a foot (HomeAdvisor). Every single year.
 
 A Roofline Kit is $2.99/ft, one time. You own it. Next December, pull it out of the box and hang it again.
 
@@ -64,13 +64,13 @@ Not 16 million colors. Not an app. Just one clean, warm-white line of classic C9
 The house from the Christmas card. That's what we build.
 👉 https://nkaczq-yy.myshopify.com/products/custom-roofline-light-kit
 
-### RK-07 (text)
+### RK-07 (text) — ON HOLD, skip until Quinn confirms build capacity is really limited
 Every Roofline Kit is cut, bulbed and labeled by hand for one specific house, so we can only build so many before Thanksgiving.
 
 If you want your lights up Thanksgiving weekend, measure this week and get your order in early.
 👉 https://nkaczq-yy.myshopify.com/products/custom-roofline-light-kit
 
-### RK-08 (text)
+### RK-08 (text) — ON HOLD, skip until Quinn confirms the specs match what ships
 What's in the box:
 ✅ Commercial C9 LED bulbs, 12" spacing, already installed
 ✅ 18-gauge outdoor-rated wire, cut to your roofline
