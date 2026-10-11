@@ -380,8 +380,16 @@
 // ─── STATE ───────────────────────────────────────────
 let selectedService = 'Mowing';
 let photoBase64 = null;
+let photoMediaType = 'image/jpeg';
 let sessionLog = [];
-let calTokens = null;
+let calConnected = false;
+
+// Escape text before inserting into HTML strings.
+function esc(s) {
+  return String(s == null ? '' : s)
+    .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+}
 
 // Set default datetime
 const d = new Date();
@@ -389,16 +397,22 @@ d.setDate(d.getDate() + 1);
 d.setHours(8,0,0,0);
 document.getElementById('jobDateTime').value = d.toISOString().slice(0,16);
 
-// Load saved tokens
-try {
-  const saved = localStorage.getItem('heron_tokens');
-  if (saved) {
-    calTokens = JSON.parse(saved);
-    updateCalStatus(true);
-  } else {
-    document.getElementById('calBanner').style.display = 'flex';
+// Remove tokens stored by older versions of the app
+try { localStorage.removeItem('heron_tokens'); } catch(e) {}
+
+// Check Google Calendar connection (tokens live in an httpOnly cookie on the server)
+async function refreshCalStatus() {
+  try {
+    const res = await fetch('/api/auth-status', { cache: 'no-store' });
+    const data = await res.json();
+    calConnected = !!data.connected;
+  } catch(e) {
+    calConnected = false;
   }
-} catch(e) {}
+  updateCalStatus(calConnected);
+  return calConnected;
+}
+refreshCalStatus();
 
 // ─── UI HELPERS ──────────────────────────────────────
 function switchTab(tab) {
@@ -418,13 +432,49 @@ function handlePhoto(e) {
   const file = e.target.files[0];
   if (!file) return;
   const reader = new FileReader();
-  reader.onload = ev => {
-    photoBase64 = ev.target.result.split(',')[1];
+  reader.onload = async ev => {
+    const dataUrl = ev.target.result;
     const img = document.getElementById('previewImg');
-    img.src = ev.target.result;
+    img.src = dataUrl;
     img.style.display = 'block';
+    try {
+      const prepared = await prepareImage(dataUrl);
+      photoMediaType = prepared.mediaType;
+      photoBase64 = prepared.data;
+    } catch(err) {
+      photoBase64 = null;
+      showError('priceError', '⚠️ Could not read that photo. Try a JPG or PNG.');
+    }
   };
   reader.readAsDataURL(file);
+}
+
+// Use the photo's real media type; shrink big or unsupported images (e.g. HEIC)
+// to a JPEG so the upload stays under the server/API size limits.
+const SUPPORTED_TYPES = ['image/jpeg','image/png','image/gif','image/webp'];
+const MAX_B64_LEN = 3.5 * 1024 * 1024;
+function prepareImage(dataUrl) {
+  const m = /^data:([^;,]+);base64,(.*)$/s.exec(dataUrl);
+  const mediaType = m ? m[1].toLowerCase().replace('image/jpg', 'image/jpeg') : '';
+  const data = m ? m[2] : '';
+  if (m && SUPPORTED_TYPES.includes(mediaType) && data.length <= MAX_B64_LEN) {
+    return Promise.resolve({ mediaType, data });
+  }
+  return new Promise((resolve, reject) => {
+    const im = new Image();
+    im.onload = () => {
+      const maxSide = 1568;
+      const scale = Math.min(1, maxSide / Math.max(im.width, im.height));
+      const canvas = document.createElement('canvas');
+      canvas.width = Math.round(im.width * scale);
+      canvas.height = Math.round(im.height * scale);
+      canvas.getContext('2d').drawImage(im, 0, 0, canvas.width, canvas.height);
+      const out = canvas.toDataURL('image/jpeg', 0.85);
+      resolve({ mediaType: 'image/jpeg', data: out.split(',')[1] });
+    };
+    im.onerror = reject;
+    im.src = dataUrl;
+  });
 }
 
 function updateCalStatus(connected) {
@@ -448,39 +498,49 @@ function setLoading(type, show) {
 }
 function showResult(id) { document.getElementById(id).classList.add('show'); }
 function hideResult(id) { document.getElementById(id).classList.remove('show'); }
-function showError(id, msg) { const e = document.getElementById(id); e.innerHTML = msg; e.classList.add('show'); }
+function showError(id, msg) { const e = document.getElementById(id); e.textContent = msg; e.classList.add('show'); }
 function hideError(id) { document.getElementById(id).classList.remove('show'); }
 
 function addLog(type, detail) {
   sessionLog.unshift({ type, detail, time: new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'}) });
   const list = document.getElementById('logList');
-  list.innerHTML = sessionLog.map(l => `
-    <div class="log-item">
-      <div class="log-time">${l.time}</div>
-      <div class="log-type">${l.type}</div>
-      <div class="log-detail">${l.detail}</div>
-    </div>
-  `).join('');
+  list.replaceChildren(...sessionLog.map(l => {
+    const item = document.createElement('div');
+    item.className = 'log-item';
+    for (const [cls, text] of [['log-time', l.time], ['log-type', l.type], ['log-detail', l.detail]]) {
+      const div = document.createElement('div');
+      div.className = cls;
+      div.textContent = text;
+      item.appendChild(div);
+    }
+    return item;
+  }));
 }
 
 // ─── GOOGLE CALENDAR ─────────────────────────────────
+// The OAuth popup tells us when it's done
+window.addEventListener('message', ev => {
+  if (ev.origin === location.origin && ev.data && ev.data.type === 'heron-cal') refreshCalStatus();
+});
+
 async function connectCalendar() {
+  if (calConnected) {
+    if (confirm('Disconnect Google Calendar?')) {
+      try { await fetch('/api/logout', { method: 'POST' }); } catch(e) {}
+      refreshCalStatus();
+    }
+    return;
+  }
   try {
-    const res = await fetch('/api/auth-url');
+    const res = await fetch('/api/auth-url', { cache: 'no-store' });
     const data = await res.json();
+    if (!res.ok || !data.url) throw new Error(data.error || 'Calendar not configured');
     const popup = window.open(data.url, 'google-auth', 'width=500,height=600');
-    
-    // Poll for token storage
+    if (!popup) { window.location.href = data.url; return; } // popup blocked: use same tab
+
+    // When the popup closes, check the connection
     const check = setInterval(() => {
-      try {
-        const saved = localStorage.getItem('heron_tokens');
-        if (saved) {
-          calTokens = JSON.parse(saved);
-          updateCalStatus(true);
-          clearInterval(check);
-          if (popup && !popup.closed) popup.close();
-        }
-      } catch(e) {}
+      if (popup.closed) { clearInterval(check); refreshCalStatus(); }
     }, 500);
 
     // Stop checking after 2 min
@@ -491,18 +551,15 @@ async function connectCalendar() {
 }
 
 async function addToCalendar(eventData) {
-  if (!calTokens) return null;
+  if (!calConnected) return null;
   try {
     const res = await fetch('/api/add-event', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ tokens: calTokens, event: eventData })
+      body: JSON.stringify({ event: eventData })
     });
     const data = await res.json();
-    if (data.newTokens) {
-      calTokens = data.newTokens;
-      localStorage.setItem('heron_tokens', JSON.stringify(calTokens));
-    }
+    if (data.connected === false) { calConnected = false; updateCalStatus(false); }
     return data;
   } catch(err) {
     console.error('Calendar error:', err);
@@ -538,22 +595,20 @@ async function geocode(address) {
 
 // ─── CLAUDE API ──────────────────────────────────────
 async function callClaude(messages, system) {
-  const res = await fetch('https://api.anthropic.com/v1/messages', {
+  const res = await fetch('/api/claude', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      model: 'claude-sonnet-4-20250514',
-      max_tokens: 1000,
-      system,
-      messages
-    })
+    body: JSON.stringify({ system, messages })
   });
+  let data = null;
+  try { data = await res.json(); } catch(e) {}
   if (!res.ok) {
-    const err = await res.json();
-    throw new Error(err.error?.message || 'Claude API error');
+    if (res.status === 413) throw new Error('Photo is too large — try a smaller one.');
+    throw new Error((data && (data.error?.message || data.error)) || 'Claude API error');
   }
-  const data = await res.json();
-  return data.content[0].text;
+  const text = (data.content || []).filter(b => b.type === 'text').map(b => b.text).join('\n');
+  if (!text) throw new Error('Claude returned an empty response — try again.');
+  return text;
 }
 
 // ─── GET PRICE ───────────────────────────────────────
@@ -585,7 +640,7 @@ UPSELL: [one tip for Quinn to make more money on this job]`;
     const result = await callClaude([{
       role: 'user',
       content: [
-        { type: 'image', source: { type: 'base64', media_type: 'image/jpeg', data: photoBase64 } },
+        { type: 'image', source: { type: 'base64', media_type: photoMediaType, data: photoBase64 } },
         { type: 'text', text: `Service: ${selectedService}\nNotes: ${document.getElementById('priceNotes').value || 'none'}` }
       ]
     }], system);
@@ -599,14 +654,14 @@ UPSELL: [one tip for Quinn to make more money on this job]`;
 
     document.getElementById('priceResultContent').innerHTML = `
       <div class="price-range">Estimate Range</div>
-      <span class="price-big">${range}</span>
-      <div class="rec-box">✅ Charge: <strong>${rec}</strong></div>
-      <div class="why-text">${why}</div>
+      <span class="price-big">${esc(range)}</span>
+      <div class="rec-box">✅ Charge: <strong>${esc(rec)}</strong></div>
+      <div class="why-text">${esc(why)}</div>
       <div class="meta-row">
-        <div class="badge">⏱ ${time}</div>
-        <div class="badge">🛠 ${selectedService}</div>
+        <div class="badge">⏱ ${esc(time)}</div>
+        <div class="badge">🛠 ${esc(selectedService)}</div>
       </div>
-      ${upsell ? `<div class="tip-box">💡 Upsell: ${upsell}</div>` : ''}
+      ${upsell ? `<div class="tip-box">💡 Upsell: ${esc(upsell)}</div>` : ''}
     `;
     showResult('priceResult');
     addLog('💵 Price Estimate', `${selectedService} — ${rec}`);
@@ -676,17 +731,17 @@ NOTE: [one practical tip for this job]`;
 
     if (weather) {
       html += `<div class="weather-row">
-        <div class="weather-icon">${weather.condition.split(' ')[0]}</div>
+        <div class="weather-icon">${esc(weather.condition.split(' ')[0])}</div>
         <div>
-          <div style="font-weight:600;font-size:13px;">${weather.condition.split(' ').slice(1).join(' ')} — ${weather.tempF}°F</div>
-          <div style="font-size:11px;color:var(--gray);">${weather.precip}% rain · ${weather.wind} mph wind</div>
+          <div style="font-weight:600;font-size:13px;">${esc(weather.condition.split(' ').slice(1).join(' '))} — ${esc(weather.tempF)}°F</div>
+          <div style="font-size:11px;color:var(--gray);">${esc(weather.precip)}% rain · ${esc(weather.wind)} mph wind</div>
         </div>
       </div>`;
     }
 
-    html += `<div style="margin-bottom:8px;font-size:13px;"><span style="color:${weatherColor};font-weight:600;">${weatherEmoji} ${weatherAssess}</span></div>`;
-    if (window_) html += `<div style="font-size:13px;margin-bottom:6px;">🕐 ${window_}</div>`;
-    if (note) html += `<div class="tip-box">💡 ${note}</div>`;
+    html += `<div style="margin-bottom:8px;font-size:13px;"><span style="color:${weatherColor};font-weight:600;">${weatherEmoji} ${esc(weatherAssess)}</span></div>`;
+    if (window_) html += `<div style="font-size:13px;margin-bottom:6px;">🕐 ${esc(window_)}</div>`;
+    if (note) html += `<div class="tip-box">💡 ${esc(note)}</div>`;
 
     // Add to Google Calendar automatically
     const startDT = new Date(datetime);
@@ -702,24 +757,24 @@ NOTE: [one practical tip for this job]`;
     };
 
     let calHtml = '';
-    if (calTokens) {
+    if (calConnected) {
       const calResult = await addToCalendar(calEvent);
       if (calResult && calResult.success) {
         calHtml = `<div class="cal-added">
           <div class="icon">📅</div>
           <div class="text">
             <strong>Added to Google Calendar</strong>
-            <span>${service} on ${startDT.toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric'})} at ${startDT.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})}</span>
+            <span>${esc(service)} on ${startDT.toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric'})} at ${startDT.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})}</span>
           </div>
         </div>`;
       } else {
-        calHtml = `<div class="error-box show" style="margin-top:10px;">⚠️ Calendar add failed — check connection</div>`;
+        calHtml = `<div class="error-box show" style="margin-top:10px;">⚠️ ${esc((calResult && calResult.error) || 'Calendar add failed — check connection')}</div>`;
       }
     } else {
       // Fallback link
       const fmt = d2 => d2.toISOString().replace(/[-:]/g,'').split('.')[0]+'Z';
       const calUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(calEvent.summary)}&dates=${fmt(startDT)}/${fmt(endDT)}&details=${encodeURIComponent(calEvent.description)}&location=${encodeURIComponent(address)}`;
-      calHtml = `<a href="${calUrl}" target="_blank" style="text-decoration:none;">
+      calHtml = `<a href="${esc(calUrl)}" target="_blank" rel="noopener" style="text-decoration:none;">
         <div class="cal-added" style="background:#1a1500;border:1px solid var(--gold);">
           <div class="icon">📅</div>
           <div class="text">
