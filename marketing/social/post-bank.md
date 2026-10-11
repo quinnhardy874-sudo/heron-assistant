@@ -108,7 +108,7 @@ Leaves are starting to drop. 🍂
 
 Heron Landscaping does fall cleanups across Towson: leaf removal, bed cleanup, mulch refresh and a final mow, so your yard is ready for winter.
 
-Spots fill up fast in October. Call or text 410-830-0843
+Booking now. Call or text 410-830-0843
 
 ### HL-03 (photo: lighting scene)
 Why hire out your Christmas lights?
