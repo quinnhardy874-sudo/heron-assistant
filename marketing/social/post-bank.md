@@ -1,6 +1,6 @@
 # Facebook Post Bank
 
-One post a day, alternating Pages: **Roofline Kit** on odd days of the month, **Heron Landscaping** on even days. Post the next unused entry for that Page, then log it in `post-log.md`.
+One post a day, every day, alternating Pages: **Roofline Kit** (Christmas lights) on odd days of the month, **Heron Landscaping** (landscaping/home services only, no Christmas lights) on even days. Post the next unused entry for that Page, skipping anything marked ON HOLD, then log it in `post-log.md`.
 
 Rules:
 - No fake reviews, testimonials, customer names or made-up numbers.
@@ -43,7 +43,7 @@ Every run in your kit comes labeled for exactly where it goes: front gutter, gar
 No guessing and no "which strand was this?" in the driveway. Match the label, clip it up, done.
 👉 https://nkaczq-yy.myshopify.com/products/custom-roofline-light-kit
 
-### RK-04 (text)
+### RK-04 (text) — ON HOLD, skip until Quinn confirms the claims
 Worried you'll measure wrong? You're not on your own.
 
 Before we cut a single foot, we check your order against satellite imagery of your house. If something doesn't match, we reach out first. Every kit also includes a 5% length buffer.
@@ -94,75 +94,85 @@ All four come cut to your roofline with every bulb already on.
 
 ---
 
-## Heron Landscaping (in person, Towson and Baltimore County)
+## Heron Landscaping (landscaping and home services only, Towson and nearby)
 
-### HL-01 (photo: lighting scene)
-🎄 Holiday lighting season is booking now in Towson and Baltimore County.
+Quinn's rule (2026-10-11): Heron Page posts are landscaping/home services only. Christmas lights go on the Roofline Kit Page. Only list services Heron actually does: mowing, edging, mulching, bed cleanup, leaf removal, fall/seasonal cleanups.
 
-We design, install, and take down your Christmas lights. You never touch a ladder. Custom-fit to your roofline, hung clean and straight.
-
-Call or text for a free quote: 410-830-0843
-
-### HL-02 (photo: fall yard)
+### HL-01 (photo: fall yard)
 Leaves are starting to drop. 🍂
 
 Heron Landscaping does fall cleanups across Towson: leaf removal, bed cleanup, mulch refresh and a final mow, so your yard is ready for winter.
 
 Booking now. Call or text 410-830-0843
 
-### HL-03 (photo: lighting scene)
-Why hire out your Christmas lights?
+### HL-02 (text)
+What a fall cleanup from Heron includes:
 
-🪜 No ladders, no roof
-⏱️ Your weekend back
-✨ Straight, even lines that actually look professional
-📦 We take them down in January too
+✅ Leaves cleared from the lawn and beds
+✅ Beds cleaned up and cut back
+✅ Fresh mulch where you want it
+✅ Clean edges along walks and beds
+✅ A final mow before winter
 
-Towson and Baltimore County. Free quotes: 410-830-0843
+Towson and nearby. Call or text 410-830-0843
 
-### HL-04 (photo: fall yard)
-Local, owner-run, and we show up when we say we will.
-
-Heron Landscaping has been serving Towson homeowners with mowing, edging, mulching, cleanups, and now holiday lighting installs.
-
-Call or text Quinn: 410-830-0843
-
-### HL-05 (photo: lighting scene)
-Holiday lighting tip: book early.
-
-Installers fill their calendars by mid-November, and everyone wants lights up by Thanksgiving weekend. Lock in your install date now and you're done thinking about it.
-
-Towson and Baltimore County: 410-830-0843
-
-### HL-06 (photo: fall yard)
+### HL-03 (photo: fall yard)
 Fall is the best time to mulch and clean up beds. It protects roots over winter and you start spring ahead.
 
 Heron Landscaping: fall cleanups, mulch, edging. Towson and nearby.
 Call or text 410-830-0843
 
-### HL-07 (photo: lighting scene)
-What does a professional holiday light install include?
+### HL-04 (text)
+Why not just leave the leaves?
 
-✅ A custom design for your house
-✅ Commercial-grade lights
-✅ Install and timer setup
-✅ Takedown in January
+A thick, wet layer of leaves sitting on your lawn all winter blocks light and holds moisture against the grass. Come spring, that's where you see thin, patchy spots.
 
-Get a free quote in Towson and Baltimore County: 410-830-0843
+Clearing them before the snow is one of the easiest ways to keep your lawn healthy. We do it so you don't have to: 410-830-0843
 
-### HL-08 (photo: lighting scene)
-Every street has that one house that looks amazing at Christmas.
+### HL-05 (text)
+Local, owner-run, and we show up when we say we will.
 
-Want yours to be that house this year? We design it, hang it, and take it down in January.
-Heron Holiday Lighting: 410-830-0843
+Heron Landscaping handles mowing, edging, mulching, and seasonal cleanups for Towson homeowners.
 
-### HL-09 (photo: fall yard)
+Call or text Quinn: 410-830-0843
+
+### HL-06 (photo: fall yard)
 Last mow of the season plus a leaf cleanup = a yard that looks sharp all winter.
 
 Booking fall cleanups now across Towson. Call or text 410-830-0843
 
-### HL-10 (photo: lighting scene)
-Holiday install dates go fast once November hits. If you've been thinking about it, now's a good time to get on the calendar.
+### HL-07 (text)
+The small thing that makes a yard look finished: a clean edge.
 
-Free quote, no pressure: 410-830-0843
-Towson and Baltimore County.
+A crisp line where the lawn meets the walk, driveway and beds makes the whole property look cared for, even before anything else changes.
+
+Edging, mowing and bed work around Towson: 410-830-0843
+
+### HL-08 (text)
+Your weekend has better uses than raking.
+
+Leaf removal, bed cleanup, mulch and a final mow, done in one visit so you can get the yard off your list before winter.
+
+Heron Landscaping, Towson: call or text 410-830-0843
+
+### HL-09 (photo: fall yard)
+A quick checklist before the first freeze:
+
+🍂 Leaves off the lawn
+🌿 Beds cleaned out and cut back
+🪵 Mulch topped up to protect roots
+✂️ One last mow
+
+If you'd rather hand it off, Heron Landscaping does all four. 410-830-0843
+
+### HL-10 (text)
+Thinking ahead to spring? Heron Landscaping does regular mowing, edging and mulching through the season, so the yard is handled without you thinking about it.
+
+Towson and nearby. Call or text Quinn: 410-830-0843
+
+---
+
+## Retired (2026-10-11)
+The old Heron holiday-lighting install posts (old HL-01, 03, 05, 07, 08, 10) were taken out of the Heron rotation per Quinn: Christmas lights now go on the Roofline Kit Page only. The Heron holiday-lighting call ads are separate and still running until the Oct 13 recap.
+
+RK-04 is on hold: its claims ("we check your order against satellite imagery", "5% length buffer") aren't confirmed anywhere else. Skip it until Quinn confirms both are true.
