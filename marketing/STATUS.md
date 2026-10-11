@@ -21,3 +21,14 @@
 9. **No Instagram/Pinterest** for Roofline Kit.
 10. **Real photos** of a kit and of Heron jobs.
 11. **Job-assistant web app (Vercel) can't work as built:** `public/index.html` calls the Claude API from the browser with no key; Google OAuth tokens are exposed to the browser (`api/auth-callback.js`, `api/add-event.js`). Needs a server-side rewrite before anyone uses it.
+
+## Fixed 2026-10-11 (second pass)
+- **Product description (live):** satellite claim → "We review your measurements before we cut"; "5% length buffer included" → "5% extra length built in (included in your footage total)". Vendor "Heron Lighting" → "Roofline Kit".
+- **New unpublished theme "Roofline Kit (Oct 11 fixes)"** (copy of live theme) with: price/shipping/order-by line at the top of the kit builder; FAQ "What if I measure wrong?" without the satellite claim; timer unticked and labeled "Optional"; address placeholder no longer mentions satellite. **Quinn: preview, then Online Store → Themes → Publish.** (Live-theme edits and publishing are blocked for the assistant.)
+- **Roofline Kit campaign:** Nov 15 11:59 PM ET stop date set. Meta auto-paused it on edit; re-activated within a minute.
+- **Job assistant app:** Claude calls moved server-side, Google tokens in encrypted httpOnly cookie, output escaped. Needs env vars — see `docs/app-setup.md`.
+
+## Still Quinn-only
+- Pixel: Shopify → Facebook & Instagram app → Data sharing → dataset 1025353737193227, Maximum.
+- Privacy policy contact line still shows 722 Dulaney Valley Rd (assistant lacks permission to edit legal pages). Settings → Policies → Privacy policy → Contact paragraph. Also Settings → Store details address if that's home.
+- Google Business Profile, Nextdoor Business Page, Instagram, real photos, Vercel env vars.
