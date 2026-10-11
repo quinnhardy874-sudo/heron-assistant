@@ -1,7 +1,7 @@
 # Round 2 Ads (built 2026-10-08)
 
-## LIVE since 2026-10-08: $2/day per ad, $12/day total (Quinn approved)
-Each ad has its own ad set with a $2/day budget, so every ad gets equal spend.
+## LIVE: 4 ads, about $8/day total (Quinn cap: under $8/day, set 2026-10-11)
+Running: H1, H3 (Heron calls) and R1, R2 (Roofline Kit visits), ~$2/day each. **Paused 2026-10-11:** H2 (0 calls on $6.17) and R3 (cost per visit rising). Kill rules at the Oct 13 recap: Heron paused if cost per call > $15 or no calls in 3 days; Roofline Kit paused if 0 add-to-carts after 100+ visits and 0 orders. Then new research before any new ads.
 
 **Heron campaign** `120254934629130712`: Leads objective, call ads, people within 15 miles of Towson
 
