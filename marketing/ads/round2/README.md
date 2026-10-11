@@ -25,7 +25,7 @@ The tables further down list the earlier $5/day campaigns (`120254179328010712` 
 
 ---
 
-Built from the research in `../../research/proven-ads.md` plus new research done today. Nothing is live. Quinn approves before anything spends.
+Built from the research in `../../research/proven-ads.md` plus new research done 2026-10-08. (Written before launch; the six ads above went live 2026-10-08 with Quinn's approval.)
 
 ## New research behind this round
 

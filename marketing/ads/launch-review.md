@@ -1,5 +1,7 @@
 # Roofline Kit: Ad Launch Review (2026-10-08)
 
+> **Status 2026-10-11:** this describes an older, superseded build. The live ads are the six $2/day round-2 ads; see `marketing/ads/round2/README.md`.
+
 Quinn asked a group of three reviewers whether to run ads F and E at $5/day. Each reviewer was told to argue against the plan. Nothing is live. The campaign budget is set to $5/day and the campaign is paused.
 
 ## Verdict: not as it stands. Fix the store first, then run F only.

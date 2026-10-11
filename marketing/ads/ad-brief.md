@@ -1,5 +1,7 @@
 # Heron Holiday Lighting: local call ad (rebuilt 2026-10-08)
 
+> **Status 2026-10-11:** this describes an older, superseded build. The live ads are the six $2/day round-2 ads; see `marketing/ads/round2/README.md`.
+
 - **Campaign:** `Heron Holiday Lighting` (`120254179328010712`), Leads objective. Budget lowered from $10/day to **$5/day**. PAUSED.
 - **Old ad set:** `Heron Holiday Bookings` (`120254179327990712`), now PAUSED.
   - It targeted the **entire US**, which is the wrong audience for a local install service.
