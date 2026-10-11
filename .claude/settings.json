@@ -3,7 +3,30 @@
     "allow": [
       "Edit",
       "Write",
-      "NotebookEdit"
+      "NotebookEdit",
+      "Bash(git *)",
+      "Bash(gh api *)",
+      "PushNotification",
+      "mcp__Zapier__inspect_zapier_actions",
+      "mcp__Zapier__list_zapier_connections",
+      "mcp__Zapier__execute_zapier_read_action",
+      "mcp__Zapier__execute_zapier_write_action",
+      "mcp__FB_ads__ads_get_ad_entities",
+      "mcp__FB_ads__ads_get_ad_accounts",
+      "mcp__FB_ads__ads_get_field_context",
+      "mcp__FB_ads__ads_get_ad_preview",
+      "mcp__FB_ads__ads_get_creatives",
+      "mcp__FB_ads__ads_get_errors",
+      "mcp__Shopify__get-product",
+      "mcp__Shopify__get-shop-info",
+      "mcp__Shopify__graphql_query",
+      "mcp__Shopify__graphql_schema",
+      "mcp__Shopify__validate_graphql_codeblocks",
+      "mcp__Shopify__run-analytics-query",
+      "mcp__Shopify__list-orders",
+      "mcp__Claude_Code_Remote__send_later",
+      "mcp__Claude_Code_Remote__list_triggers",
+      "mcp__Claude_Code_Remote__get_trigger"
     ],
     "defaultMode": "acceptEdits"
   }
