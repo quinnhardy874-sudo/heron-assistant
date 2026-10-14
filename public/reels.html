@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#2d5a27">
+<title>Heron Reels</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=DM+Serif+Display&display=swap');
+
+  :root {
+    --green: #2d5a27;
+    --green-light: #4a8c3f;
+    --green-bright: #6dbf5e;
+    --cream: #f5f0e8;
+    --dark: #0d150b;
+    --dark2: #111a0e;
+    --dark3: #1a2618;
+    --border: #2a3a28;
+    --gray: #8a9187;
+    --gold: #d4a017;
+    --danger: #c0392b;
+    --danger-bg: #2a0a0a;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+  body {
+    background: var(--dark);
+    color: var(--cream);
+    font-family: 'DM Sans', sans-serif;
+    min-height: 100vh;
+    max-width: 480px;
+    margin: 0 auto;
+    padding-bottom: 60px;
+  }
+
+  .header {
+    background: var(--green);
+    padding: 16px 20px 12px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 3px solid var(--green-bright);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .logo { font-family: 'Bebas Neue', sans-serif; font-size: 26px; letter-spacing: 2px; line-height: 1; }
+  .logo span { color: var(--green-bright); }
+  .back { color: var(--cream); font-size: 13px; text-decoration: none; opacity: 0.8; }
+
+  .step { padding: 16px; border-bottom: 1px solid var(--border); }
+  .step-head { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; cursor: pointer; }
+  .step-num {
+    width: 28px; height: 28px; border-radius: 50%;
+    background: var(--dark3); border: 1px solid var(--green-bright); color: var(--green-bright);
+    display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 13px; flex-shrink: 0;
+  }
+  .step.done .step-num { background: var(--green-bright); color: var(--dark); }
+  .step-title { font-family: 'Bebas Neue', sans-serif; font-size: 22px; letter-spacing: 1px; }
+  .step-sub { font-size: 12px; color: var(--gray); }
+  .step.locked { opacity: 0.4; pointer-events: none; }
+  .step.collapsed .step-body { display: none; }
+
+  .card { background: var(--dark3); border: 1px solid var(--border); border-radius: 12px; padding: 14px; margin-bottom: 10px; }
+
+  label { display: block; font-size: 11px; font-weight: 600; letter-spacing: 0.8px; text-transform: uppercase; color: var(--gray); margin: 10px 0 5px; }
+  input, textarea {
+    width: 100%; background: var(--dark2); border: 1px solid var(--border); border-radius: 8px;
+    color: var(--cream); font-family: inherit; font-size: 15px; padding: 10px 12px; outline: none;
+  }
+  input:focus, textarea:focus { border-color: var(--green-bright); }
+  textarea { resize: vertical; min-height: 60px; }
+
+  .btn {
+    display: block; width: 100%; padding: 14px; border: none; border-radius: 10px;
+    background: var(--green-bright); color: var(--dark); font-family: 'Bebas Neue', sans-serif;
+    font-size: 20px; letter-spacing: 1.5px; cursor: pointer; margin-top: 12px;
+  }
+  .btn:disabled { opacity: 0.5; cursor: wait; }
+  .btn.ghost { background: transparent; color: var(--green-bright); border: 1px solid var(--green-bright); }
+  .row { display: flex; gap: 8px; }
+  .row .btn { flex: 1; }
+
+  .brand-summary { font-size: 14px; line-height: 1.5; }
+  .brand-summary b { color: var(--green-bright); }
+  .link { color: var(--green-bright); font-size: 13px; cursor: pointer; text-decoration: underline; background: none; border: none; font-family: inherit; margin-top: 8px; }
+
+  .idea { cursor: pointer; transition: border-color 0.15s; }
+  .idea.selected { border-color: var(--green-bright); box-shadow: 0 0 0 1px var(--green-bright); }
+  .idea-tag { font-size: 10px; font-weight: 700; letter-spacing: 1px; color: var(--gold); text-transform: uppercase; }
+  .idea-hook { font-size: 16px; font-weight: 600; margin: 6px 0; line-height: 1.35; }
+  .idea-title { font-size: 13px; color: var(--gray); }
+  .idea-more { display: none; margin-top: 10px; font-size: 13px; line-height: 1.5; }
+  .idea.selected .idea-more { display: block; }
+  .idea-more p { margin-bottom: 6px; }
+  .idea-more b { color: var(--green-bright); }
+  .idea-more .risk b { color: var(--gold); }
+  .shots { margin: 8px 0; padding-left: 18px; }
+  .shots li { margin-bottom: 4px; }
+  .fill { background: #3a2a05; color: var(--gold); padding: 0 3px; border-radius: 3px; }
+
+  .looks { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .look { border-radius: 12px; border: 2px solid var(--border); overflow: hidden; cursor: pointer; }
+  .look.selected { border-color: var(--green-bright); }
+  .look canvas { display: block; width: 100%; aspect-ratio: 9/16; }
+  .look-name { padding: 8px 10px; font-size: 12px; background: var(--dark3); }
+  .look-name b { display: block; font-size: 13px; }
+  .look-name span { color: var(--gray); font-size: 11px; letter-spacing: 0.8px; }
+
+  .shot-row { display: flex; gap: 10px; align-items: center; }
+  .thumb {
+    width: 54px; height: 96px; border-radius: 6px; background: var(--dark2); border: 1px dashed var(--border);
+    flex-shrink: 0; overflow: hidden; display: flex; align-items: center; justify-content: center; font-size: 22px; color: var(--gray); cursor: pointer;
+  }
+  .thumb img, .thumb video { width: 100%; height: 100%; object-fit: cover; }
+  .shot-info { flex: 1; min-width: 0; font-size: 13px; }
+  .shot-info .t { color: var(--gray); font-size: 11px; }
+  .shot-info input { margin-top: 6px; font-size: 14px; padding: 8px 10px; }
+
+  .stage { position: relative; margin: 10px auto; width: 100%; max-width: 300px; }
+  .stage canvas { width: 100%; aspect-ratio: 9/16; border-radius: 14px; display: block; background: #000; }
+
+  .caption-box { white-space: pre-wrap; font-size: 14px; line-height: 1.5; }
+  .error { display: none; background: var(--danger-bg); border: 1px solid var(--danger); color: #f2b8b0; padding: 10px 12px; border-radius: 8px; font-size: 13px; margin-top: 10px; }
+  .error.show { display: block; }
+  .note { font-size: 12px; color: var(--gray); margin-top: 8px; line-height: 1.5; }
+  .spinner { display: inline-block; width: 14px; height: 14px; border: 2px solid var(--dark); border-top-color: transparent; border-radius: 50%; animation: spin 0.8s linear infinite; vertical-align: -2px; margin-right: 6px; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="logo">HERON <span>REELS</span></div>
+  <a class="back" href="/">← Assistant</a>
+</div>
+
+<!-- STEP 1: BRAND -->
+<div class="step" id="step1">
+  <div class="step-head" onclick="toggleStep(1)">
+    <div class="step-num">1</div>
+    <div><div class="step-title">Your brand</div><div class="step-sub">What every idea is built from</div></div>
+  </div>
+  <div class="step-body">
+    <div class="card" id="brandSummary"></div>
+    <div id="brandForm" style="display:none">
+      <label>Business name</label><input id="b_name">
+      <label>Instagram handle</label><input id="b_handle">
+      <label>Service area</label><input id="b_area">
+      <label>Services</label><textarea id="b_services"></textarea>
+      <label>Who buys</label><textarea id="b_audience"></textarea>
+      <label>Current offer / deadline</label><input id="b_offer">
+      <label>Voice</label><input id="b_voice">
+      <label>Facts we can claim (prices, reviews, insured...)</label><textarea id="b_facts" placeholder="Only things that are true. Leave blank if unsure."></textarea>
+      <label>Never say</label><input id="b_avoid">
+      <label>Brand colors</label>
+      <div class="row">
+        <input id="b_c1" type="color" style="height:44px;padding:4px">
+        <input id="b_c2" type="color" style="height:44px;padding:4px">
+        <input id="b_c3" type="color" style="height:44px;padding:4px">
+      </div>
+      <button class="btn" onclick="saveBrand()">Save brand</button>
+    </div>
+  </div>
+</div>
+
+<!-- STEP 2: IDEA -->
+<div class="step" id="step2">
+  <div class="step-head" onclick="toggleStep(2)">
+    <div class="step-num">2</div>
+    <div><div class="step-title">Pick something to make</div><div class="step-sub">From your niche, or a reel you want to copy</div></div>
+  </div>
+  <div class="step-body">
+    <label>Guide the ideas (optional)</label>
+    <input id="guide" placeholder="e.g. two-story homes, safety, book before Nov 15">
+    <label>Or describe / paste a reel you like (optional)</label>
+    <textarea id="pasted" placeholder="Paste the caption or describe the shots: 'opens on dark house, flips to lit...'"></textarea>
+    <button class="btn" id="genBtn" onclick="generateIdeas()">Get ideas</button>
+    <div class="error" id="ideaErr"></div>
+    <div id="ideas" style="margin-top:12px"></div>
+  </div>
+</div>
+
+<!-- STEP 3: LOOK -->
+<div class="step locked" id="step3">
+  <div class="step-head" onclick="toggleStep(3)">
+    <div class="step-num">3</div>
+    <div><div class="step-title">Pick how it should look</div><div class="step-sub">Your brand colors are already in each</div></div>
+  </div>
+  <div class="step-body">
+    <div class="looks" id="looks"></div>
+  </div>
+</div>
+
+<!-- STEP 4: BUILD -->
+<div class="step locked" id="step4">
+  <div class="step-head" onclick="toggleStep(4)">
+    <div class="step-num">4</div>
+    <div><div class="step-title">Add your footage & export</div><div class="step-sub">Your own clips beat generated ones</div></div>
+  </div>
+  <div class="step-body">
+    <div id="shotList"></div>
+    <div class="stage"><canvas id="stage" width="1080" height="1920"></canvas></div>
+    <div class="row">
+      <button class="btn ghost" onclick="playPreview()">▶ Preview</button>
+      <button class="btn" id="exportBtn" onclick="exportVideo()">Export video</button>
+    </div>
+    <div class="error" id="exportErr"></div>
+    <div class="note" id="exportNote">Exports a 1080×1920 video with no audio. Add a trending sound in Instagram when you post.</div>
+
+    <label style="margin-top:18px">Caption</label>
+    <div class="card caption-box" id="captionBox"></div>
+    <button class="btn ghost" onclick="copyCaption()">Copy caption</button>
+  </div>
+</div>
+
+<script>
+// ─── STATE ───────────────────────────────────────────
+const DEFAULT_BRAND = {
+  name: 'Heron Landscaping',
+  handle: '@heron.landscaping',
+  area: 'Baltimore, MD and surrounding suburbs',
+  services: 'Residential holiday lighting installation (design, install, takedown). Landscaping and home services.',
+  audience: 'Homeowners, especially two-story houses, who want a bright clean roofline without climbing a ladder or losing a weekend.',
+  offer: '',
+  voice: 'Straight-talking, local, confident. No hype.',
+  facts: '',
+  avoid: 'DIY tips, anything that teaches people to hang their own lights',
+  colors: ['#2d5a27', '#6dbf5e', '#f5f0e8']
+};
+
+const LOOKS = [
+  { id: 'editorial', name: 'Clean & calm', tag: 'EDITORIAL' },
+  { id: 'night', name: 'High contrast', tag: 'NIGHT' },
+  { id: 'punch', name: 'Loud & fast', tag: 'PUNCH' },
+  { id: 'paper', name: 'Warm paper', tag: 'PAPER' }
+];
+
+let brand = load('heron_brand') || { ...DEFAULT_BRAND };
+let ideas = load('heron_ideas') || [];
+let selectedIdea = null;
+let selectedLook = load('heron_look') || 'night';
+let shots = [];          // { seconds, visual, text, media: {type, el, url} | null }
+let playing = null;      // { start, raf }
+
+function load(k) { try { return JSON.parse(localStorage.getItem(k)); } catch { return null; } }
+function save(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch {} }
+function esc(s) { return String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c])); }
+function markFills(s) { return esc(s).replace(/\[FILL IN:[^\]]*\]/g, m => `<span class="fill">${m}</span>`); }
+
+// ─── STEPS ───────────────────────────────────────────
+function toggleStep(n) { document.getElementById('step' + n).classList.toggle('collapsed'); }
+function setDone(n, done) { document.getElementById('step' + n).classList.toggle('done', done); }
+function unlock(n) { document.getElementById('step' + n).classList.remove('locked', 'collapsed'); }
+
+// ─── STEP 1: BRAND ───────────────────────────────────
+const BRAND_FIELDS = ['name', 'handle', 'area', 'services', 'audience', 'offer', 'voice', 'facts', 'avoid'];
+
+function renderBrand() {
+  const c = brand.colors || DEFAULT_BRAND.colors;
+  document.getElementById('brandSummary').innerHTML = `
+    <div class="brand-summary">
+      Making this for <b>${esc(brand.name)}</b> (${esc(brand.handle)})<br>
+      ${esc(brand.services)}<br>
+      <span style="color:var(--gray)">${esc(brand.area)}</span>
+      <div style="display:flex;gap:6px;margin-top:8px">${c.map(x => `<div style="width:22px;height:22px;border-radius:50%;background:${esc(x)};border:1px solid var(--border)"></div>`).join('')}</div>
+    </div>
+    <button class="link" onclick="editBrand()">Edit brand</button>`;
+  setDone(1, true);
+}
+
+function editBrand() {
+  BRAND_FIELDS.forEach(f => document.getElementById('b_' + f).value = brand[f] || '');
+  const c = brand.colors || DEFAULT_BRAND.colors;
+  ['b_c1', 'b_c2', 'b_c3'].forEach((id, i) => document.getElementById(id).value = c[i]);
+  document.getElementById('brandForm').style.display = 'block';
+  document.getElementById('brandSummary').style.display = 'none';
+}
+
+function saveBrand() {
+  BRAND_FIELDS.forEach(f => brand[f] = document.getElementById('b_' + f).value.trim());
+  brand.colors = ['b_c1', 'b_c2', 'b_c3'].map(id => document.getElementById(id).value);
+  save('heron_brand', brand);
+  document.getElementById('brandForm').style.display = 'none';
+  document.getElementById('brandSummary').style.display = 'block';
+  renderBrand();
+  renderLooks();
+}
+
+// ─── STEP 2: IDEAS ───────────────────────────────────
+async function generateIdeas() {
+  const btn = document.getElementById('genBtn');
+  const err = document.getElementById('ideaErr');
+  err.classList.remove('show');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span>Thinking (30-60s)...';
+
+  try {
+    let res = await requestIdeas();
+    if (res.status === 401) {
+      const code = prompt('Enter the app passcode:');
+      if (code) { save('heron_passcode', code); res = await requestIdeas(); }
+    }
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || 'Something went wrong');
+    ideas = data.ideas;
+    save('heron_ideas', ideas);
+    renderIdeas();
+  } catch (e) {
+    err.textContent = e.message;
+    err.classList.add('show');
+  } finally {
+    btn.disabled = false;
+    btn.textContent = ideas.length ? 'New ideas' : 'Get ideas';
+  }
+}
+
+function requestIdeas() {
+  return fetch('/api/reel-ideas', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'X-Heron-Passcode': load('heron_passcode') || '' },
+    body: JSON.stringify({
+      brand,
+      guide: document.getElementById('guide').value,
+      pastedReel: document.getElementById('pasted').value,
+      count: 5
+    })
+  });
+}
+
+function renderIdeas() {
+  document.getElementById('ideas').innerHTML = ideas.map((idea, i) => `
+    <div class="card idea ${selectedIdea === i ? 'selected' : ''}" onclick="selectIdea(${i})">
+      <div class="idea-tag">Idea ${i + 1}</div>
+      <div class="idea-hook">${markFills(idea.hook)}</div>
+      <div class="idea-title">${esc(idea.title)}</div>
+      <div class="idea-more">
+        <p><b>Angle:</b> ${markFills(idea.angle)}</p>
+        <p><b>Why it sells:</b> ${markFills(idea.why_it_sells)}</p>
+        <p class="risk"><b>Biggest risk:</b> ${markFills(idea.biggest_risk)}</p>
+        <ol class="shots">${idea.shots.map(s => `<li>${s.seconds}s: ${markFills(s.visual)} <i>"${markFills(s.on_screen_text)}"</i></li>`).join('')}</ol>
+        <p><b>CTA:</b> ${markFills(idea.cta)}</p>
+      </div>
+    </div>`).join('');
+}
+
+function selectIdea(i) {
+  selectedIdea = i;
+  renderIdeas();
+  const idea = ideas[i];
+  shots = idea.shots.map(s => ({
+    seconds: Math.min(Math.max(Number(s.seconds) || 3, 1.5), 6),
+    visual: s.visual,
+    text: s.on_screen_text,
+    media: null
+  }));
+  setDone(2, true);
+  unlock(3);
+  unlock(4);
+  setDone(3, true);
+  renderShots();
+  renderCaption();
+  drawFrame(0);
+}
+
+// ─── STEP 3: LOOKS ───────────────────────────────────
+function renderLooks() {
+  const wrap = document.getElementById('looks');
+  wrap.innerHTML = LOOKS.map(l => `
+    <div class="look ${selectedLook === l.id ? 'selected' : ''}" onclick="selectLook('${l.id}')">
+      <canvas width="270" height="480" id="look_${l.id}"></canvas>
+      <div class="look-name"><b>${l.name}</b><span>${l.tag}</span></div>
+    </div>`).join('');
+  LOOKS.forEach(l => {
+    const c = document.getElementById('look_' + l.id);
+    const ctx = c.getContext('2d');
+    ctx.save();
+    ctx.scale(0.25, 0.25);
+    renderScene(ctx, { look: l.id, media: null, text: 'Stay off the ladder this year', p: 0.6, label: '' });
+    ctx.restore();
+  });
+}
+
+function selectLook(id) {
+  selectedLook = id;
+  save('heron_look', id);
+  renderLooks();
+  drawFrame(0);
+}
+
+// ─── STEP 4: SHOTS ───────────────────────────────────
+function renderShots() {
+  document.getElementById('shotList').innerHTML = shots.map((s, i) => `
+    <div class="card">
+      <div class="shot-row">
+        <label class="thumb" for="file_${i}">${s.media ? (s.media.type === 'video' ? `<video src="${s.media.url}" muted></video>` : `<img src="${s.media.url}">`) : '+'}</label>
+        <input type="file" id="file_${i}" accept="image/*,video/*" style="display:none" onchange="addMedia(${i}, this)">
+        <div class="shot-info">
+          <div class="t">Shot ${i + 1} · ${s.seconds}s</div>
+          <div>${markFills(s.visual)}</div>
+          <input value="${esc(s.text)}" oninput="shots[${i}].text = this.value; drawFrame(0)">
+        </div>
+      </div>
+    </div>`).join('');
+}
+
+function addMedia(i, input) {
+  const file = input.files[0];
+  if (!file) return;
+  const url = URL.createObjectURL(file);
+  const isVideo = file.type.startsWith('video');
+  const el = document.createElement(isVideo ? 'video' : 'img');
+  el.src = url;
+  if (isVideo) { el.muted = true; el.playsInline = true; el.preload = 'auto'; }
+  const ready = () => { renderShots(); drawFrame(0); };
+  if (isVideo) el.addEventListener('loadeddata', ready, { once: true });
+  else el.onload = ready;
+  shots[i].media = { type: isVideo ? 'video' : 'image', el, url };
+}
+
+function renderCaption() {
+  const idea = ideas[selectedIdea];
+  const tags = idea.hashtags.map(t => t.startsWith('#') ? t : '#' + t).join(' ');
+  document.getElementById('captionBox').innerHTML = markFills(`${idea.caption}\n\n${idea.cta}\n\n${tags}`);
+}
+
+function copyCaption() {
+  navigator.clipboard.writeText(document.getElementById('captionBox').innerText);
+}
+
+// ─── RENDERER ────────────────────────────────────────
+const W = 1080, H = 1920;
+const END_CARD = 2.5;
+
+function totalDuration() { return shots.reduce((a, s) => a + s.seconds, 0) + END_CARD; }
+
+function shotAt(t) {
+  let acc = 0;
+  for (let i = 0; i < shots.length; i++) {
+    if (t < acc + shots[i].seconds) return { i, local: t - acc, p: (t - acc) / shots[i].seconds };
+    acc += shots[i].seconds;
+  }
+  return { i: -1, local: t - acc, p: Math.min((t - acc) / END_CARD, 1) };
+}
+
+function drawCover(ctx, el, zoom) {
+  const sw = el.videoWidth || el.naturalWidth, sh = el.videoHeight || el.naturalHeight;
+  if (!sw || !sh) return;
+  const scale = Math.max(W / sw, H / sh) * zoom;
+  const dw = sw * scale, dh = sh * scale;
+  ctx.drawImage(el, (W - dw) / 2, (H - dh) / 2, dw, dh);
+}
+
+function wrapLines(ctx, text, maxW) {
+  const words = String(text).split(/\s+/).filter(Boolean);
+  const lines = [];
+  let line = '';
+  for (const w of words) {
+    const test = line ? line + ' ' + w : w;
+    if (ctx.measureText(test).width > maxW && line) { lines.push(line); line = w; }
+    else line = test;
+  }
+  if (line) lines.push(line);
+  return lines;
+}
+
+function ease(x) { return 1 - Math.pow(1 - Math.min(Math.max(x, 0), 1), 3); }
+
+function renderScene(ctx, { look, media, text, p, label, local = p * 3 }) {
+  const [c1, c2, c3] = brand.colors || DEFAULT_BRAND.colors;
+  const inT = ease(local / 0.35);
+
+  // Background / footage
+  ctx.fillStyle = look === 'paper' ? '#efe6d2' : look === 'editorial' ? '#1d211c' : '#05070a';
+  ctx.fillRect(0, 0, W, H);
+  if (media) {
+    ctx.save();
+    if (look === 'night') ctx.filter = 'contrast(1.25) saturate(1.2) brightness(0.95)';
+    if (look === 'editorial') ctx.filter = 'saturate(0.85) contrast(1.05)';
+    if (look === 'paper') ctx.filter = 'sepia(0.15) saturate(0.95)';
+    drawCover(ctx, media.el, 1 + 0.06 * p);
+    ctx.restore();
+  } else {
+    // Placeholder: a stylised roofline of lights
+    const g = ctx.createLinearGradient(0, 0, 0, H);
+    g.addColorStop(0, look === 'paper' ? '#e9dcc0' : '#0b1220');
+    g.addColorStop(1, look === 'paper' ? '#d8c7a3' : '#121c10');
+    ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
+    ctx.fillStyle = look === 'paper' ? '#bfae8a' : '#0a0f0a';
+    ctx.beginPath(); ctx.moveTo(140, 1150); ctx.lineTo(540, 820); ctx.lineTo(940, 1150); ctx.lineTo(940, 1500); ctx.lineTo(140, 1500); ctx.fill();
+    for (let k = 0; k <= 24; k++) {
+      const f = k / 24, x = f < 0.5 ? 140 + f * 2 * 400 : 540 + (f - 0.5) * 2 * 400, y = f < 0.5 ? 1150 - f * 2 * 330 : 820 + (f - 0.5) * 2 * 330;
+      ctx.beginPath(); ctx.arc(x, y, 9, 0, Math.PI * 2);
+      ctx.fillStyle = '#ffd88a'; ctx.shadowColor = '#ffcf6b'; ctx.shadowBlur = 30; ctx.fill();
+    }
+    ctx.shadowBlur = 0;
+  }
+
+  // Overlay per look
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'alphabetic';
+  if (look === 'night') {
+    const v = ctx.createRadialGradient(W / 2, H / 2, 300, W / 2, H / 2, 1200);
+    v.addColorStop(0, 'rgba(0,0,0,0)'); v.addColorStop(1, 'rgba(0,0,0,0.75)');
+    ctx.fillStyle = v; ctx.fillRect(0, 0, W, H);
+    ctx.font = '150px "Bebas Neue"';
+    const lines = wrapLines(ctx, text.toUpperCase(), W - 160);
+    ctx.globalAlpha = inT;
+    lines.forEach((l, k) => {
+      const y = 760 + k * 150 - (lines.length - 1) * 75 + (1 - inT) * 40;
+      ctx.shadowColor = '#ffcf6b'; ctx.shadowBlur = 40; ctx.fillStyle = '#fff6e0';
+      ctx.fillText(l, W / 2, y);
+    });
+    ctx.shadowBlur = 0; ctx.globalAlpha = 1;
+  } else if (look === 'punch') {
+    ctx.font = '170px "Bebas Neue"';
+    const lines = wrapLines(ctx, text.toUpperCase(), W - 140);
+    const s = 0.6 + 0.4 * ease(local / 0.18) + (local < 0.3 ? Math.sin(local * 30) * 0.03 : 0);
+    ctx.save(); ctx.translate(W / 2, 900); ctx.scale(s, s);
+    lines.forEach((l, k) => {
+      const y = k * 165 - (lines.length - 1) * 82;
+      const w = ctx.measureText(l).width + 50;
+      ctx.fillStyle = k % 2 ? c2 : '#ffe14a';
+      ctx.fillRect(-w / 2, y - 140, w, 165);
+      ctx.fillStyle = '#0a0a0a';
+      ctx.fillText(l, 0, y);
+    });
+    ctx.restore();
+  } else if (look === 'editorial') {
+    ctx.font = '64px "DM Serif Display"';
+    const lines = wrapLines(ctx, text, W - 260);
+    const boxH = 90 + lines.length * 78;
+    const y0 = H - 380 - boxH + (1 - inT) * 60;
+    ctx.globalAlpha = 0.92 * inT;
+    ctx.fillStyle = c3; ctx.fillRect(90, y0, W - 180, boxH);
+    ctx.globalAlpha = inT;
+    ctx.fillStyle = c1; ctx.fillRect(90, y0, 10, boxH);
+    ctx.fillStyle = '#16200f';
+    lines.forEach((l, k) => ctx.fillText(l, W / 2, y0 + 105 + k * 78));
+    ctx.globalAlpha = 1;
+  } else if (look === 'paper') {
+    ctx.font = '600 70px "DM Sans"';
+    const lines = wrapLines(ctx, text, W - 300);
+    const boxH = 100 + lines.length * 84;
+    ctx.save(); ctx.translate(W / 2, 1260 + (1 - inT) * 80); ctx.rotate(-0.025); ctx.globalAlpha = inT;
+    ctx.shadowColor = 'rgba(0,0,0,0.35)'; ctx.shadowBlur = 30; ctx.shadowOffsetY = 12;
+    ctx.fillStyle = '#fbf6ea'; ctx.fillRect(-(W - 200) / 2, -boxH / 2, W - 200, boxH);
+    ctx.shadowBlur = 0; ctx.shadowOffsetY = 0;
+    ctx.fillStyle = c1;
+    lines.forEach((l, k) => ctx.fillText(l, 0, -boxH / 2 + 105 + k * 84));
+    ctx.restore();
+  }
+
+  // Brand bug
+  if (label !== '') {
+    ctx.globalAlpha = 0.9;
+    ctx.font = '44px "Bebas Neue"';
+    ctx.fillStyle = look === 'paper' ? c1 : '#ffffff';
+    ctx.textAlign = 'left';
+    ctx.fillText((brand.name || '').toUpperCase(), 70, 140);
+    ctx.globalAlpha = 1;
+  }
+}
+
+function renderEndCard(ctx, p) {
+  const [c1, c2, c3] = brand.colors || DEFAULT_BRAND.colors;
+  const idea = ideas[selectedIdea];
+  ctx.fillStyle = selectedLook === 'paper' ? '#efe6d2' : c1;
+  ctx.fillRect(0, 0, W, H);
+  const a = ease(p / 0.3);
+  ctx.globalAlpha = a;
+  ctx.textAlign = 'center';
+  ctx.fillStyle = selectedLook === 'paper' ? c1 : c3;
+  ctx.font = '130px "Bebas Neue"';
+  wrapLines(ctx, (brand.name || '').toUpperCase(), W - 160).forEach((l, k) => ctx.fillText(l, W / 2, 700 + k * 130));
+  ctx.font = '600 64px "DM Sans"';
+  ctx.fillStyle = selectedLook === 'paper' ? '#16200f' : '#ffffff';
+  wrapLines(ctx, idea.cta, W - 200).forEach((l, k) => ctx.fillText(l, W / 2, 1050 + k * 80));
+  ctx.font = '52px "DM Sans"';
+  ctx.fillStyle = c2;
+  ctx.fillText(brand.handle || '', W / 2, 1450);
+  ctx.globalAlpha = 1;
+}
+
+let lastShot = -2;
+function drawFrame(t, live = false) {
+  if (selectedIdea === null) return;
+  const ctx = document.getElementById('stage').getContext('2d');
+  const { i, local, p } = shotAt(t);
+  if (live && i !== lastShot) {
+    shots.forEach((s, k) => { if (s.media?.type === 'video') { s.media.el.pause(); if (k === i) { s.media.el.currentTime = 0; s.media.el.play(); } } });
+    lastShot = i;
+  }
+  if (i === -1) return renderEndCard(ctx, p);
+  const s = shots[i];
+  renderScene(ctx, { look: selectedLook, media: s.media, text: s.text, p, local });
+}
+
+function playPreview() { return runTimeline(); }
+
+function runTimeline() {
+  return new Promise(resolve => {
+    if (playing) cancelAnimationFrame(playing.raf);
+    lastShot = -2;
+    const dur = totalDuration();
+    const start = performance.now();
+    const tick = () => {
+      const t = (performance.now() - start) / 1000;
+      if (t >= dur) {
+        drawFrame(dur - 0.01, true);
+        shots.forEach(s => s.media?.type === 'video' && s.media.el.pause());
+        playing = null;
+        return resolve();
+      }
+      drawFrame(t, true);
+      playing.raf = requestAnimationFrame(tick);
+    };
+    playing = { raf: requestAnimationFrame(tick) };
+  });
+}
+
+// ─── EXPORT ──────────────────────────────────────────
+function pickMime() {
+  const opts = ['video/mp4;codecs=avc1.640028', 'video/mp4', 'video/webm;codecs=vp9', 'video/webm'];
+  return opts.find(m => window.MediaRecorder && MediaRecorder.isTypeSupported(m));
+}
+
+async function exportVideo() {
+  const err = document.getElementById('exportErr');
+  err.classList.remove('show');
+  if (shots.some(s => /\[FILL IN/i.test(s.text))) {
+    err.textContent = 'Replace every [FILL IN: ...] in the on-screen text with a real fact before exporting.';
+    return err.classList.add('show');
+  }
+  const mime = pickMime();
+  if (!mime) {
+    err.textContent = 'This browser cannot record video. Use Chrome or Safari.';
+    return err.classList.add('show');
+  }
+  const btn = document.getElementById('exportBtn');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span>Recording...';
+
+  const stream = document.getElementById('stage').captureStream(30);
+  const rec = new MediaRecorder(stream, { mimeType: mime, videoBitsPerSecond: 8_000_000 });
+  const chunks = [];
+  rec.ondataavailable = e => e.data.size && chunks.push(e.data);
+  const stopped = new Promise(r => rec.onstop = r);
+
+  rec.start(250);
+  await runTimeline();
+  rec.stop();
+  await stopped;
+
+  const ext = mime.startsWith('video/mp4') ? 'mp4' : 'webm';
+  const blob = new Blob(chunks, { type: mime.split(';')[0] });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `heron-reel-${Date.now()}.${ext}`;
+  a.click();
+
+  btn.disabled = false;
+  btn.textContent = 'Export video';
+  if (ext === 'webm') {
+    document.getElementById('exportNote').textContent = 'Saved as .webm (this browser cannot record MP4). Instagram wants MP4: re-export from Safari or a current Chrome, or convert it first.';
+  }
+}
+
+// ─── INIT ────────────────────────────────────────────
+(async () => {
+  renderBrand();
+  try {
+    await Promise.all(['150px "Bebas Neue"', '64px "DM Serif Display"', '600 70px "DM Sans"'].map(f => document.fonts.load(f)));
+  } catch {}
+  renderLooks();
+  if (ideas.length) {
+    renderIdeas();
+    document.getElementById('genBtn').textContent = 'New ideas';
+  }
+})();
+</script>
+</body>
+</html>
