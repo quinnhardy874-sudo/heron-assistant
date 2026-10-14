@@ -35,3 +35,4 @@ Every caption ends with:
 
 | Date | Image | Facebook | Instagram |
 |---|---|---|---|
+| 2026-10-14 | 10-book-early | 1075457215640818_122124975453258316 | 18129396895843565 |
