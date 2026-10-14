@@ -27,8 +27,8 @@ const IdeasSchema = z.object({ ideas: z.array(Idea) });
 const SYSTEM = `You write short-form vertical video ads (Instagram Reels / Facebook Reels) for a local home-services business. Every idea you write will be filmed by the owner on a phone and run as a paid ad to homeowners in their service area.
 
 What makes an idea good:
-- It sells the done-for-you service. Never teach viewers to do the job themselves.
-- It leads with the buyer's real reason to pay (no ladder, no lost weekend, safety, a house that looks better than the neighbors') rather than technical details only other pros care about.
+- It sells something the business actually offers: a done-for-you service, or a product that makes the job easy. Never give away free how-to that replaces buying either one. If the brand offers both, each idea sells one of them clearly, so the viewer never wonders whether someone is coming to install it.
+- It leads with the buyer's real reason to pay (no ladder, no lost weekend, no tangled store lights, safety, a house that looks better than the neighbors') rather than technical details only other pros care about.
 - The hook lands in the first 1.5 seconds and works with the sound off.
 - 5-7 shots, 15-25 seconds total, each one filmable by one person with a phone at a real job. No stock footage, actors, drones or effects.
 - On-screen text is 7 words or fewer per shot, written like a person talks.
