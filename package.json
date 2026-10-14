@@ -6,6 +6,8 @@
     "dev": "vercel dev"
   },
   "dependencies": {
-    "googleapis": "^140.0.0"
+    "@anthropic-ai/sdk": "^0.133.0",
+    "googleapis": "^140.0.0",
+    "zod": "^4.6.7"
   }
 }
