@@ -7,6 +7,7 @@ Rules (set by Quinn, 2026-10-14):
 - Ads not running as paid ads get used as free posts.
 - Every caption says "(Pictured: example design)" until real Heron install photos replace the AI images.
 - When Quinn sends real photos, they go to the front of the queue.
+- The scheduler fires on odd days at 6:52pm ET. If the last post in the log was yesterday (e.g. 31st -> 1st), skip that run.
 
 Images: `ads/hd/jpg/` (1080x1350).
 
