@@ -1,7 +1,7 @@
 # Stump grinding + seed — Towson
 
-Carousel order: 1-before → 2-after → 4-after (3-before close-up is optional).
-People cropped out of the before photos.
+Reel: reel.mp4 (before → grinding clip → after, 10.7s). Carousel order: 1-before → 2-after → 4-after (3-before close-up is optional).
+1-before is a new shot with no people in it.
 
 ## Instagram
 Stumps, roots, and ivy ➡️ clean, graded, and seeded 🌱
