@@ -1,6 +1,6 @@
 # Stump grinding + seed — Towson
 
-Reel: reel.mp4 (before → grinding clip → after, 10.7s). Carousel order: 1-before → 2-after → 4-after (3-before close-up is optional).
+Reel: reel.mp4 (before → grinding clip → after, 11.2s, hook text + free-quote CTA). Carousel order: 1-before → 2-after → 4-after (3-before close-up is optional).
 1-before is a new shot with no people in it.
 
 ## Instagram
