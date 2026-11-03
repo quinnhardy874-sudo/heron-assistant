@@ -1,0 +1,30 @@
+{
+  "permissions": {
+    "allow": [
+      "Edit",
+      "Write",
+      "NotebookEdit",
+      "Read",
+      "Glob",
+      "Grep",
+      "Bash",
+      "WebFetch",
+      "WebSearch",
+      "PushNotification",
+      "Agent",
+      "Skill",
+      "Artifact",
+      "mcp__Zapier",
+      "mcp__FB_ads",
+      "mcp__Shopify",
+      "mcp__Claude_Code_Remote",
+      "mcp__github",
+      "mcp__Canva",
+      "mcp__Gmail",
+      "mcp__Google_Calendar",
+      "mcp__Google_Drive",
+      "mcp__v0"
+    ],
+    "defaultMode": "acceptEdits"
+  }
+}
